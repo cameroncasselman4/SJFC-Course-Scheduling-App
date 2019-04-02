@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Course Scheduling</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/index.css">
+</head>
+<body>
+
+    <!--nav bar-->
+    <nav class="navbar">
+            <span class="navbar-toggle" id="js-navbar-toggle">
+                <i class="fas fa-bars"></i>
+            </span>
+            <a href="#" class="logo">logo</a>
+            <ul class="main-nav" id="js-menu">
+                <li>
+                    <a href="#" class="nav-links">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-links">Your Classes</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-links">Alternative List</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-links">Week at a Glance</a>
+                </li>
+            </ul>
+    </nav>
+
+    <!--header-->
+    <header id = "showcase">
+            <div class="bg-image"></div>
+            <div class="content wrap">
+                <h1>Pre-Registration</h1>
+                <p class="headerP">Search for classes below</p>
+                <a href="#section-1" class="btn">Get Started</a>
+            </div>            
+    </header>
+
+   <!-- section 1 -->
+    <!--A lot of this will be generated using javascript including checkbox values-->
+    <section id="section-1">
+        <div class="section-1-header">
+            <h2>Getting started</h2>
+            <p>Check subjects and/or attributes</p>
+        </div>
+        <div class="text-box-container">
+            <div>
+                <h2 class="align-center">Subjects</h2>
+                <div class="attributes subjects" id="getSubjects"></div>
+                <input type="checkbox" id="check-all" onchange="checkAllSubjects(this);"> Check All Subjects
+            </div>
+            <div>
+                <h2 class="align-center">Attributes</h2>
+                <div class="attributes" id="getAttributes">
+                    ----- Core Attributes ----- <br>
+                    <input type="checkbox" id="LC"> LC - Learning Community  </input> <br>
+                    <input type="checkbox" id="CC"/> CC - Cultural Contrasts <br>
+                    <input type="checkbox" id="RW"/> RW - Research based Writing <br>
+                    <input type="checkbox" id="SQ"/> SQ - Sci and Quant Literacy <br>
+                    <input type="checkbox" id="P1"/> P1 - Perspectives Area 1 <br>
+                    <input type="checkbox" id="P2"/> P2 - Perspectives Area 2 <br>
+                    <input type="checkbox" id="P3"/> P3 - Perspectives Area 3 <br>
+                    <input type="checkbox" id="P4"/> P4 - Perspectives Area 4 <br>
+                    <input type="checkbox" id="P5"/> P5 - Perspectives Area 5 <br>
+                    <input type="checkbox" id="W"/> W - Online Summer UG Courses <br>
+                    ----- All ----- <br>
+                    <input type="checkbox" id="ADVE"/> ADVE - C/J Advertising Course <br>
+                    <input type="checkbox" id="AFCE"/> AFCE - AFAM Cultural Expressions <br>
+                    <input type="checkbox" id="AMHU"/> AMHU - AMST Humanities Area C <br>
+                    <input type="checkbox" id="AMSS"/> AMSS - AMST Social Science Area B <br>
+                    <input type="checkbox" id="AMUS"/> AMUS - AMST US History Area A <br>
+                    <input type="checkbox" id="BCST"/> BCST - C/J Broadcasting Course <br>
+                    <input type="checkbox" id="CJMP"/> CJMP - C/J Media Perspectives Course <br>
+                    <input type="checkbox" id="CJVP"/> CJVP - C/J Visual Presentation Course <br>
+                    <input type="checkbox" id="ENBL"/> ENBL - ENGL British Literature Course <br>
+                    <input type="checkbox" id="ENEA"/> ENEA - ENGL Ethnic American Lit <br>
+                    <input type="checkbox" id="ENLT"/> ENLT - ENGL Literature Course <br>
+                    <input type="checkbox" id="ENWL"/> ENWL - ENGL World Literature <br>
+                    <input type="checkbox" id="ENWR"/> ENWR - ENGL Writing Course <br>
+                    <input type="checkbox" id="ENWT"/> ENWT - ENGL Writing:Thry, Context, Co <br>
+                    <input type="checkbox" id="ENWP"/> ENWP - ENGL Writing: Adv Practices <br>
+                    <input type="checkbox" id="HHCF"/> HHCF - HHUM Cultural Foundations <br>
+                    <input type="checkbox" id="HHHD"/> HHHD - HHUM Human Differences <br>
+                    <input type="checkbox" id="HHSM"/> HHSM - HHUM Skills & Methodologies<br>
+                    <input type="checkbox" id="HHUM"/> HHUM - HHUM Humanities <br>
+                    <input type="checkbox" id="HIES"/> HIES - HIST European Studies <br>
+                    <input type="checkbox" id="HINA"/> HINA - HIST North American Studies <br>
+                    <input type="checkbox" id="HINW"/> HINW - HIST Asian-Non Western <br>
+                    <input type="checkbox" id="HISM"/> HISM - HIST Strat, Milti & Diplomatic <br>
+                    <input type="checkbox" id="HONR"/> HONR - Honors Course <br>
+                    <input type="checkbox" id="JRNL"/> JRNL - Journalism Minor Course <br>
+                    <input type="checkbox" id="MUST"/> MUST - Museum Studies Elective <br>
+                    <input type="checkbox" id="P1"/> P1 - Perspectives Area 1 <br>
+                    <input type="checkbox" id="P2"/> P2 - Perspectives Area 2 <br>
+                    <input type="checkbox" id="P3"/> P3 - Perspectives Area 3 <br>
+                    <input type="checkbox" id="P4"/> P4 - Perspectives Area 4 <br>
+                    <input type="checkbox" id="P5"/> P5 - Perspectives Area 5 <br>
+                    <input type="checkbox" id="PR"/> PR - C/J Public Relations Course <br>
+                    <input type="checkbox" id="PROD"/> PROD - C/J Production Course <br>
+                    <input type="checkbox" id="RW"/> RW - Research based Writing <br>
+                    <input type="checkbox" id="SLC"/> SLC - Service Learning Component <br>
+                    <input type="checkbox" id="SLC"/> SPBE - SPST Business Elective <br>
+                    <input type="checkbox" id="SPHR"/> SPHR - SPST Human Relations Elective <br>
+                    <input type="checkbox" id="SQ"/> SQ - Sci and Quant Literacy <br>
+                    <input type="checkbox" id="STCO"/> STCO - Strategic Communication Course <br>
+                    <input type="checkbox" id="WGST"/> WGST - WGST Elective <br>
+                    <input type="checkbox" id="YLIB"/> YLIB - Liberal Arts Elective <br>
+                    <input type="checkbox" id="ZCAP"/> ZCAP - Senior Capstone <br>
+                    <input type="checkbox" id="ZCIV"/> ZCIV - Civic Engagement <br>
+                    <input type="checkbox" id="ZCLX"/> ZCLX - Clinical Experience <br>
+                    <input type="checkbox" id="ZEXL"/> ZEXL - Experiential Learning <br>
+                    <input type="checkbox" id="ZRES"/> ZRES - Student Research Component <br>
+                    <input type="checkbox" id="ZTRA"/> ZTRA - International Travel Component  <br>   
+                </div>
+                <input type="checkbox" id="no-attributes" onchange="noAttributes(this)"> No Attributes
+            </div>
+        </div>
+        <a href="javascript:void(0)" onClick="getClasses();" class="submit-btn">Submit</a>
+    </section>
+
+    <!-- Section Two -->
+    <!-- Class List -->
+    <section id="section-two">
+        <div class="table-header">
+            <h2 class table-h2></h2>
+        <div class="course-table" style="overflow-x:auto;">
+        
+        </div>
+
+    </section>
+    
+    <script src="scripts/navToggle.js"></script> 
+    <script src="scripts/index.js"></script>
+</body>
+</html>

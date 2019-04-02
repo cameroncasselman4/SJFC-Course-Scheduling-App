@@ -1,0 +1,294 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+/* nav bar */
+.navbar {
+    font-size: 18px;
+    background: #993333;
+    border: 1px solid rgba(0,0,0,0.2);
+    padding-bottom: 10px;
+}
+
+.main-nav {
+    list-style-type: none;
+}
+
+.nav-links,
+.logo {
+    text-decoration: none;
+    color:white;
+}
+
+.logo:hover,
+.nav-links:hover {
+    color:#F7D778;
+}
+
+.main-nav li {
+    text-align: center;
+    margin: 15px auto;
+}
+
+.logo {
+    display: inline-block;
+    font-size: 22px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.navbar-toggle {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer; 
+    color: rgba(255,255,255,0.8);
+    font-size: 24px;
+}
+/* This will only be true for mobile devices */
+.main-nav {
+    list-style-type: none;
+    display: none;
+}
+/* This css property will get toggled when hamburger button is pressed */
+.active {
+    display: block;
+  }
+
+/* header */
+#showcase {
+    min-height: 550px;
+    color: #fff;
+    text-align: center;
+}
+
+#showcase .bg-image {
+    position: absolute; /*The element is positioned relative to its first positioned (not static) ancestor element*/
+    background: #333 url('/images/Kearney-Home-Page-1.jpg');
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: cover;
+    width: 100%; /*allows photo to take up entier screen*/
+    height: 550px; /*height must be the same as the parent's height in #showcase*/
+    z-index: -1;
+}
+#showcase h1 {
+    padding-top: 100px;
+    padding-bottom:0px;
+}
+.btn {
+    display: inline-block; /*Displays an element as an inline-level block container. The element itself is formatted as an inline element, but you can apply height and width values*/
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    padding: .8em 2em;
+    margin: 1em 0;
+}
+.btn:hover {
+    background:#F7D778;
+    color: black;
+}
+
+.headerP{
+    padding-top: 3px;
+}
+
+/* section 1 */
+#section-1 {
+    padding-bottom: 20px;
+    background: #D8D8D8;
+    text-align: center;
+}
+
+.section-1-header {
+    padding: 2em 0px;
+    background: #333;
+    color: #fff;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.text-box-container {
+    margin: 2em;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: space-evenly;
+}
+
+.attributes {
+    width:375px; 
+    height: 215px; 
+    overflow-y: scroll; 
+    background: white;
+}
+
+.submit-btn {
+    display: inline-block; /*Displays an element as an inline-level block container. The element itself is formatted as an inline element, but you can apply height and width values*/
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    padding: .5em 2em;
+}
+.submit-btn:hover {
+    background: #F7D778;
+    color: #333;
+}
+
+.course-table {
+    overflow-x:auto
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%; 
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tr:hover {background-color:#f5f5f5;}
+  
+  tr:nth-child(even) {background-color: #f2f2f2;}
+
+/* tablets/bigger phones */
+@media (min-width: 768px) {
+    /* nav bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        height: 70px;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: flex;
+        margin-right: 30px;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .main-nav li {
+        margin: 0;
+    }
+
+    .nav-links {
+        margin-left: 40px;
+    }
+
+    .logo {
+        margin-top: 0;
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+    
+    /* section 1 */
+    .text-box-container {
+        flex-direction: row;
+    }   
+
+    .attributes {
+        width: 400px;
+    }
+}
+
+/* tablets/bigger phones */
+@media (min-width: 968px) {
+    /* nav bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        height: 70px;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: flex;
+        margin-right: 30px;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .main-nav li {
+        margin: 0;
+    }
+
+    .nav-links {
+        margin-left: 40px;
+    }
+
+    .logo {
+        margin-top: 0;
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+    
+    /* section 1 */
+    .text-box-container {
+        flex-direction: row;
+    }   
+
+    .attributes {
+        width: 475px;
+    }
+}
+/* desktops */
+@media (min-width: 1244px) {
+    /* nav bar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 0;
+        height: 70px;
+        align-items: center;
+    }
+
+    .main-nav {
+        display: flex;
+        margin-right: 30px;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .main-nav li {
+        margin: 0;
+    }
+
+    .nav-links {
+        margin-left: 40px;
+    }
+
+    .logo {
+        margin-top: 0;
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+    
+    /* section 1 */
+    .text-box-container {
+        flex-direction: row;
+    }   
+
+    .attributes {
+        width: 550px;
+    }
+}
