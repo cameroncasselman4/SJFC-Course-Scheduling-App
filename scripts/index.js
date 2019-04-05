@@ -37,6 +37,7 @@ function addCheckBoxInput(subj) {
 }
 
 //function to scan checkboxes and send http request containing attributes and subjects
+//this function is triggered through an onClick listener on html submit button
 function getClasses() {
     const checkedSubjects = getCheckedSubjects();
     const checkedAttributes = getCheckedAttributes();
@@ -118,7 +119,11 @@ function getClassesRequest(subjects, attributes) {
     })
     .then(function(courses){
         //pass the json blob into a fucntion to format the table
-        console.log(courses);
+        
+        //remove previous table
+        removeTableElements("#section-two",".course-table");
+        
+     //   console.log(courses);
         if(courses.length < 1)
             createAlert("No classes returned with that combination");
         else  {
@@ -128,9 +133,8 @@ function getClassesRequest(subjects, attributes) {
             //create a table for each subject selected
             //console.log(courses); 
             //ceate an array of arrays for each subject
-                //append new arrays containing table information about specific subject
-                
-                // newArray = [];
+            //append new arrays containing table information about specific subject
+
             for(i = 0; i < courses.length; i++) {
     
                 subjectsArray.push(courses[i]);
@@ -153,14 +157,29 @@ function getClassesRequest(subjects, attributes) {
                     allCourses.push(clone);
                 }
             }  
-            for(i=0;i<allCourses.length;i++) {
-                insertTableData(allCourses[i]);
+            //console.log(allCourses);
+            for(var i=0;allCourses.length;i++) {
+                console.log("course " + i);
+                console.log(allCourses[i]);
+                insertTableData(allCourses[i]);  
             }
         }
     });
 }
 
-	
+//removes all elements with a specifc class name. In this case it will work with the class search table
+function removeTableElements(parentElement,childElement) {
+    const tableElements = document.querySelectorAll(childElement);
+    if(tableElements.length !=0) {
+        for(i=0;i<tableElements.length;i++) {
+            const parent = document.querySelector(parentElement);
+            const child = document.querySelector(childElement);
+            // if((parent !== null)&&(child !== null))
+            parent.removeChild(child);
+        }
+    }
+}
+
 //function to insert json data into employees table
 function insertTableData(jsonData){
     
@@ -170,6 +189,7 @@ function insertTableData(jsonData){
 
         //--->create table header > start
         tbl +='<thead>';
+            tbl += '<caption><h2>'+jsonData[0].code+'</h2></caption>';
             tbl +='<tr>';
             tbl +='<th>Course/Section</th>';
             tbl +='<th>CRN</th>';
@@ -179,6 +199,7 @@ function insertTableData(jsonData){
             tbl +='<th>Instructor</th>';
             tbl +='<th>Capacity</th>';
             tbl +='<th>Seats Avail</th>';
+            tbl +='<th>Main/Alternate</th>';
             tbl +='</tr>';
         tbl +='</thead>';
         //--->create table header > end
@@ -196,11 +217,11 @@ function insertTableData(jsonData){
             tbl += '<td><div class="row_data">'+ jsonData[i].capacity + '</div></td>'; 
             tbl += '<td><div class="row_data">'+ jsonData[i].seatsAvailable + '</div></td>'; 
             
-            //create edit and delete buttons
+            //Create buttons
             tbl += '<td>';
                 
-                tbl += '<span class="btn_edit"> <a href="#" row_id="'+ i +'" class ="btn btn-link">Add to Main</a></span>';
-                tbl += '<span class="btn_delete"> <a href="#" row_id="'+ i +'" class ="btn btn-link">Alternative List</a></span>';
+                tbl += '<span class="btn_main"> <a href="#javascript:void(0)" row_id="'+ i +'" class ="btn btn-link">Add to Main</a></span>';
+                tbl += '<span class="btn_alternate"> <a href="#javascript:void(0)" row_id="'+ i +'" class ="btn btn-link">Alternative List</a></span>';
 
             tbl += '<td>';  
 
@@ -208,7 +229,14 @@ function insertTableData(jsonData){
     }
     tbl +='</tbody>';    
     
+    //this function adds the tbl variable to the dom
     createTableElements(tbl); 
+    
+    //add event listeners to the main courses btn
+    addEventListeners(".btn_main",addCourseToMainList);
+    //add even listeners to the alternate courses btn
+    addEventListeners(".btn_alternate",addCourseToAlternateList);
+    
 }
 
 function createTableElements(tbl) {
@@ -218,12 +246,29 @@ function createTableElements(tbl) {
     myDiv.innerHTML = tbl;
     parentElement.appendChild(myDiv);
 }
+
+//used to add event listeners to alternate courses btn, main courses btn, remove btn, 
+//queries for all elements based on the class or id. Also needs the function to be handled by the event
+function addEventListeners(element,eventHandlerName) {
+    allElements = document.querySelectorAll(element);
+    for(i=0;i<allElements.length;i++) {
+        allElements[i].addEventListener('click',eventHandlerName);
+    }
+}
+
+function addCourseToMainList(e) {
+    //console.log(e);
+}
+
+function addCourseToAlternateList(e) {
+   // console.log("did this even work");
+}
 //removes an element from the document
-function removeElement(elementId) {
-    const parent = document.querySelector(".insertTable");
-    const child = document.querySelector(elementId);
-    if((parent !== null)&&(child !== null))
-        parent.removeChild(child);
+function removeElement(parentElement,elementId) {
+    const parent = document.querySelector(parentElement);
+    const child = document.querySelector(".course-table");
+   // if((parent !== null)&&(child !== null))
+    parent.removeChild(child);
 }
 
     //this function will either hide the table or show the table
@@ -231,7 +276,6 @@ function tableDisplay(element, value) {
     const elem = document.getElementsByClassName(element);
     elem[0].style.display = value;
 }
-
 
 
 function createAlert(message) {

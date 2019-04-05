@@ -7,8 +7,6 @@ const mysql = require("mysql");
 const app = express();
 const port = 3000;
 
-const queryString = 'select * from courses where courses.title LIKE " CC%"';
-
 app.use(express.json());
 
 //database credentials
