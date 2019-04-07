@@ -158,10 +158,10 @@ function getClassesRequest(subjects, attributes) {
                 }
             }  
             //console.log(allCourses);
-            for(var i=0;allCourses.length;i++) {
-                console.log("course " + i);
-                console.log(allCourses[i]);
-                insertTableData(allCourses[i]);  
+            for(var i=0; i < allCourses.length;i++) {
+               // console.log("course " + i);
+                //console.log(allCourses[i]);
+                insertTableData(allCourses[i],"course-search");  
             }
         }
     });
@@ -181,7 +181,8 @@ function removeTableElements(parentElement,childElement) {
 }
 
 //function to insert json data into employees table
-function insertTableData(jsonData){
+//this function creates table html for populating the course search, main schedule and alternate schedule table
+function insertTableData(jsonData,whichTable){
     
     //--->create data table > start
     let tbl = '';
@@ -189,7 +190,8 @@ function insertTableData(jsonData){
 
         //--->create table header > start
         tbl +='<thead>';
-            tbl += '<caption><h2>'+jsonData[0].code+'</h2></caption>';
+            if(whichTable == "course-search")
+                tbl += '<caption><h2>'+jsonData[0].code+'</h2></caption>';
             tbl +='<tr>';
             tbl +='<th>Course/Section</th>';
             tbl +='<th>CRN</th>';
@@ -199,52 +201,146 @@ function insertTableData(jsonData){
             tbl +='<th>Instructor</th>';
             tbl +='<th>Capacity</th>';
             tbl +='<th>Seats Avail</th>';
-            tbl +='<th>Main/Alternate</th>';
+            if(whichTable == "course-search")
+                tbl +='<th>Main/Alternate</th>';
+            if(whichTable == "main-schedule")
+                tbl +='<th>Remove/Alternate</th>';    
+            if(whichTable == "alternate-schedule")
+                tbl +='<th>Remove/Main</th>';
             tbl +='</tr>';
         tbl +='</thead>';
         //--->create table header > end
 
     //populate body with json
     tbl +='<tbody>';
-    for(var i=0; i < jsonData.length; i++) {
-        tbl += '<tr row_id="'+ i +'">';
-            tbl += '<td><div class="row_data">'+ jsonData[i].code + jsonData[i].number + '</div></td>';
-            tbl += '<td><div class="row_data">'+ jsonData[i].courseID + '</div></td>';
-            tbl += '<td><div class="row_data">'+ jsonData[i].title + '</div></td>'; 
-            tbl += '<td><div class="row_data">'+ jsonData[i].credits + '</div></td>'; 
-            tbl += '<td><div class="row_data">'+ jsonData[i].days + " " + jsonData[i].times + " " + jsonData[i].startDate + "-" + jsonData[i].endDate + '</div></td>';
-            tbl += '<td><div class="row_data">'+ jsonData[i].name + '</div></td>'; 
-            tbl += '<td><div class="row_data">'+ jsonData[i].capacity + '</div></td>'; 
-            tbl += '<td><div class="row_data">'+ jsonData[i].seatsAvailable + '</div></td>'; 
+
+    //this will iterate though multiple rows
+    if(whichTable == "course-search") {
+
+        for(var i=0; i < jsonData.length; i++) {
+            tbl += '<tr class="rows" row_id="'+ i +'">';
+                tbl += '<td><div class="row_data">'+ jsonData[i].code + jsonData[i].number + '</div></td>';
+                tbl += '<td><div class="row_data">'+ jsonData[i].courseID + '</div></td>';
+                tbl += '<td><div class="row_data">'+ jsonData[i].title + '</div></td>'; 
+                tbl += '<td><div class="row_data">'+ jsonData[i].credits + '</div></td>'; 
+                tbl += '<td><div class="row_data">'+ jsonData[i].days + " " + jsonData[i].times + " " + jsonData[i].startDate + "-" + jsonData[i].endDate + '</div></td>';
+                tbl += '<td><div class="row_data">'+ jsonData[i].name + '</div></td>'; 
+                tbl += '<td><div class="row_data">'+ jsonData[i].capacity + '</div></td>'; 
+                tbl += '<td><div class="row_data">'+ jsonData[i].seatsAvailable + '</div></td>'; 
+                
+                //Create buttons
+                tbl += '<td>';
+                    
+                    tbl += '<span class="btn_main"> <a href="#javascript:void(0)" row_id="'+ i +'" class ="btn btn-link">Add to Main</a></span>';
+                    tbl += '<span class="btn_alternate"> <a href="#javascript:void(0)" row_id="'+ i +'" class ="btn btn-link">Alternative List</a></span>';
+    
+                tbl += '<td>';  
+    
+            tbl += '</tr>';
+        }
+    }
+    
+    //only one row is passed so we can't use iteration
+    else {
+        tbl += '<tr class="rows">';
+            tbl += '<td><div class="row_data">'+ jsonData.code + jsonData.number + '</div></td>';
+            tbl += '<td><div class="row_data">'+ jsonData.courseID + '</div></td>';
+            tbl += '<td><div class="row_data">'+ jsonData.title + '</div></td>'; 
+            tbl += '<td><div class="row_data">'+ jsonData.credits + '</div></td>'; 
+            tbl += '<td><div class="row_data">'+ jsonData.days + " " + jsonData.times + " " + jsonData.startDate + "-" + jsonData.endDate + '</div></td>';
+            tbl += '<td><div class="row_data">'+ jsonData.name + '</div></td>'; 
+            tbl += '<td><div class="row_data">'+ jsonData.capacity + '</div></td>'; 
+            tbl += '<td><div class="row_data">'+ jsonData.seatsAvailable + '</div></td>'; 
             
             //Create buttons
             tbl += '<td>';
-                
-                tbl += '<span class="btn_main"> <a href="#javascript:void(0)" row_id="'+ i +'" class ="btn btn-link">Add to Main</a></span>';
-                tbl += '<span class="btn_alternate"> <a href="#javascript:void(0)" row_id="'+ i +'" class ="btn btn-link">Alternative List</a></span>';
 
+                if(whichTable == "main-schedule") {
+                    console.log("reachable");
+                    tbl += '<span class="btn_remove"> <a href="#javascript:void(0)" class ="btn btn-link">Remove</a></span>';
+                    tbl += '<span class="btn_alternate"> <a href="#javascript:void(0)" class ="btn btn-link">Alternative List</a></span>';
+                }
+                if(whichTable == "alternate-schedule") {
+                    console.log("other reachable");
+                    tbl += '<span class="btn_remove"> <a href="#javascript:void(0) class ="btn btn-link">Remove</a></span>';
+                    tbl += '<span class="btn_main"> <a href="#javascript:void(0) class ="btn btn-link">Main List</a></span>';
+                }
+        
             tbl += '<td>';  
 
         tbl += '</tr>';
     }
+    
     tbl +='</tbody>';    
     
     //this function adds the tbl variable to the dom
-    createTableElements(tbl); 
+    if(whichTable == "course-search")
+        createTableElements(tbl,"#section-two"); 
     
-    //add event listeners to the main courses btn
-    addEventListeners(".btn_main",addCourseToMainList);
-    //add even listeners to the alternate courses btn
-    addEventListeners(".btn_alternate",addCourseToAlternateList);
-    
+    if(whichTable == "main-schedule")
+        createTableElements(tbl,".main-schedule"); 
+
+    if(whichTable == "alternate-schedule")
+        createTableElements(tbl,".alternate-schedule"); 
+            
+    //store json in a data object stored for each row element.
+    //I do this for easier data manipulation when passing data between tables
+    if(whichTable == "course-search") {
+        for(var i = 0; i < jsonData.length; i++){
+            //pass row id and json
+            attachJsonToRow(i, jsonData[i]);
+        }
+        
+        //add event listeners for course-search table
+
+        //add event listeners to the main courses btn
+        addEventListeners(".btn_main",addCourseToMainList);
+        //add even listeners to the alternate courses btn
+        addEventListeners(".btn_alternate",addCourseToAlternateList);
+    }
+
+    //add event listeners for main-schedule table
+    if(whichTable == "main-schedule") {
+        //add event listeners to the remove btn
+        addEventListeners(".btn-remove",removeCourse);
+        //add even listeners to the alternate courses btn
+        addEventListeners(".btn_alternate",addCourseToAlternateList);
+    }
+
+    //add event listeners for alternate-schedule table
+    if(whichTable == "alternate-schedule") {
+        //add event listeners to the remove btn
+        addEventListeners(".btn-remove",removeCourse);
+        //add even listeners to the main courses btn
+        addEventListeners(".btn_main",addCourseToMain);
+    }
 }
 
-function createTableElements(tbl) {
-    parentElement = document.querySelector("#section-two");
-    myDiv = document.createElement("div");
+//expects correct table html and the parent element
+function createTableElements(tbl,parent) {
+    const parentElement = document.querySelector(parent);
+    const myDiv = document.createElement("div");
     myDiv.className = ("course-table");
     myDiv.innerHTML = tbl;
     parentElement.appendChild(myDiv);
+}
+
+function attachJsonToRow(rowID, jsonData) {
+    //get all elemenets with row class (should be everything populated from the class search)
+    const element = document.querySelectorAll(".rows");
+    let found = false
+    let count = 0;    
+   //this loop will find the element with the correct id then we place json data inside the data dom element
+    while(!found) {
+    
+        if(element[count].getAttributeNode("row_id").value == rowID){
+            element[count].children[8].children[0].children[0].data = jsonData;
+            found = true;
+        }
+        else {
+            count++;
+        }
+    }
 }
 
 //used to add event listeners to alternate courses btn, main courses btn, remove btn, 
@@ -257,11 +353,23 @@ function addEventListeners(element,eventHandlerName) {
 }
 
 function addCourseToMainList(e) {
-    //console.log(e);
+    jsonData = e.target.data;
+    //display selected course in a table format
+    insertTableData(jsonData,"main-schedule");     
+    //check to see if the class already exists or if it conflicts with another class existing in the schedule
+    //store array containing class ids and compare each time a new class is sent
+    //if the class conflicts, ask the user if they want to send it to the alternative list
+    //if same class is present send alert
+    //limit classes to 8 at a time
 }
 
 function addCourseToAlternateList(e) {
    // console.log("did this even work");
+   //if the same class is already present in the table send alert
+}
+
+function removeCourse() {
+    console.log("course removed");
 }
 //removes an element from the document
 function removeElement(parentElement,elementId) {
