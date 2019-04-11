@@ -123,31 +123,58 @@ function getClassesRequest(subjects, attributes) {
         return response.json();
     })
     .then(function(courses){
-        //pass the json blob into a fucntion to format the table
-        
-        //remove previous table
+        //This function cleans the data and passes the json blob into another fucntion to create tables
+
+        //remove previous tables
         removeTableElements("#section-two",".course-table");
-        
-     //   console.log(courses);
+   
+        //if no checkboxes were selected
         if(courses.length < 1)
             createAlert("No classes returned with that combination");
+         
+        //clean the data     
         else  {
             let allCourses = [];
             let subjectsArray = [];
+            let newSubjects=[];
             var count = 0;
-            //create a table for each subject selected
-            //console.log(courses); 
-            //ceate an array of arrays for each subject
-            //append new arrays containing table information about specific subject
 
-            for(i = 0; i < courses.length; i++) {
+            //find which classes are returned and build an array of subjects
+            //we need to do this because not all subjects have classes
+             
+            for(var i=0; i<courses.length; i++){
+                                
+                if(newSubjects.includes(courses[i].departmentID.toString())==false){
+                    let found = false;
+                    count = 0;
+                    while(!found) {
+
+                        if(count > subjects.length)
+                            found = true;
+
+                        if(courses[i].departmentID == subjects[count]){
+                            newSubjects.push(subjects[count].toString());
+                            found = true;
+                        }
+                        else{
+                            count ++;
+                        }
+                    }
+                }
+                
+            }
+
+            //create a table for each subject selected
+            //ceate an array of arrays for each subject and pass each array into table creator
+            count = 0;
+            for(var i = 0; i < courses.length; i++) {
     
                 subjectsArray.push(courses[i]);
                 
                 if(i != courses.length -1){
             
-                 //   console.log(count);
-                    if(courses[i+1].departmentID == subjects[count+1]) {
+                    console.log("next course depID " + courses[i+1].departmentID + " next subject " + newSubjects[count+1])
+                    if(courses[i+1].departmentID == newSubjects[count+1]) {
                     //append subjectsArray to all courses
                        // console.log(courses[i]);
                         count++;
@@ -162,7 +189,7 @@ function getClassesRequest(subjects, attributes) {
                     allCourses.push(clone);
                 }
             }  
-            //console.log(allCourses);
+            console.log(allCourses);
             for(var i=0; i < allCourses.length;i++) {
                // console.log("course " + i);
                 //console.log(allCourses[i]);
@@ -310,7 +337,6 @@ function insertTableData(jsonData,whichTable,numCourses=0){
     //add event listeners for main-schedule table
     if(whichTable == "main-schedule") {
         //add event listeners to the remove btn
-        console.log("are we reaching this point");
         addEventListeners(".btn_remove",removeCourse);
         //add even listeners to the alternate courses btn
         addEventListeners(".btn_alternate",addCourseToAlternateList);
@@ -375,8 +401,6 @@ function attachJsonToRow(rowID, jsonData) {
 //queries for all elements based on the class or id. Also needs the function to be handled by the event
 function addEventListeners(element,eventHandlerName) {
     allElements = document.querySelectorAll(element);
-    console.log(element);
-    console.log(allElements);
     for(i=0;i<allElements.length;i++) {
         allElements[i].addEventListener('click',eventHandlerName);
     }
