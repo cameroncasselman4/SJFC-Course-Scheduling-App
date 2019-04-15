@@ -5,6 +5,7 @@
 //I could have implemented an object with a static variable containing #classes
 let numMainCourses = 0;
 let numAlternativeCourses = 0;
+let numSubjectsReturned = 0;
 getCourseSubjects();
 
 //funciton to populate check box areas with course subjects
@@ -22,7 +23,7 @@ function getCourseSubjects() {
 //function to loop through every course subject and create html check box containing their associated id
 function populateCheckBox(subj) {
     for(i=0; i<subj.length; i++) {
-        addCheckBoxInput(subj[i])
+        addCheckBoxInput(subj[i]);
     }
 }
 
@@ -159,7 +160,6 @@ function getClassesRequest(subjects, attributes) {
                         }
                     }
                 }
-                
             }
 
             //create a table for each subject selected
@@ -305,16 +305,17 @@ function insertTableData(jsonData,whichTable,numCourses=0){
         tbl += '</tr>';
     }    
     
+    let tableBody;
     
     if(whichTable == "course-search"){
         //this function adds the tbl variable to the dom
-        createTableElements(tbl,"#section-two"); 
+        tableBody = createTableElements(tbl,"#section-two"); 
 
-        for(var i = 0; i < jsonData.length; i++){
+        //for(var i = 0; i < jsonData.length; i++){
             //pass row id and json
             //store json in a data object stored for each row element.
-            attachJsonToRow(i, jsonData[i]);
-        }
+            attachJsonToRow(jsonData,tableBody);
+        //}
         //add event listeners for course-search table
         //add event listeners to the main courses btn
         addEventListeners(".btn_main",addCourseToMainList);
@@ -322,11 +323,12 @@ function insertTableData(jsonData,whichTable,numCourses=0){
         addEventListeners(".btn_alternate",addCourseToAlternateList);
     }
         
-    let tableBody;
+    
     //create table elements and add event listeners if we are adding to the main table
     if(whichTable == "main-schedule") {
     
         if (numCourses > 1) {
+            console.log("So it thinks there are more than one course still");
             tableBody = appendToCurrentTable(tbl,".main-courses-table");
             //console.log()
             tableBody.childNodes[numCourses -1].childNodes[8].childNodes[1].childNodes[1].data = jsonData;
@@ -399,21 +401,12 @@ function appendToCurrentTable(tbl,parent) {
     return tableBody;
 }
 
-function attachJsonToRow(rowID, jsonData) {
-    //get all elemenets with row class (should be everything populated from the class search)
-    const element = document.querySelectorAll(".rows");
-    let found = false
-    let count = 0;    
-   //this loop will find the element with the correct id then we place json data inside the data dom element
-    while(!found) {
-    
-        if(element[count].getAttributeNode("row_id").value == rowID){
-            element[count].children[8].children[0].children[0].data = jsonData;
-            found = true;
-        }
-        else {
-            count++;
-        }
+//attaches json to all table elements populated by course search
+function attachJsonToRow(jsonData,tableBody) {
+    const numTables = tableBody.children.length;
+
+    for(var i = 0; i < jsonData.length; i++){
+        tableBody.children[numTables-1].children[0].children[3].children[i].children[8].children[0].children[0].data = jsonData[i];    
     }
 }
 
@@ -424,7 +417,7 @@ function addEventListeners(element,eventHandlerName) {
     for(i=0;i<allElements.length;i++) {
         allElements[i].addEventListener('click',eventHandlerName);
     }
-    console.log(allElements);
+    //console.log(allElements);
 }
 
 function addCourseToMainList(e) {
@@ -432,6 +425,12 @@ function addCourseToMainList(e) {
     numMainCourses++;
     console.log(e);
     let jsonData = e.target.data;
+
+    //if the button was pressed on the alternate table we need to remove that row from the table as well
+    if(e.path[8].id == "section-four"){
+        removeCourse(e);
+        numAlternativeCourses--;
+    }
 
     //display selected course in a table format
     insertTableData(jsonData,"main-schedule",numMainCourses);     
@@ -454,8 +453,11 @@ function addCourseToAlternateList(e) {
     }
 
     //if the button was pressed on the main table we need to remove that row from the table as well
-    
-   
+    if(e.path[8].id == "section-three"){
+        removeCourse(e);
+        numMainCourses--;
+    }
+       
     //jsonData = e.target.parentElement.parentElement.children[0].children[0].data;
     insertTableData(jsonData,"alternate-schedule",numAlternativeCourses);    
     //if the same class is already present in the table send alert
@@ -465,9 +467,29 @@ function addCourseToAlternateList(e) {
 function removeCourse(e) {
     //console.log(e);
     //e.preventDefault();
-    element = e.target.parentElement.parentElement.parentElement;
-    parentElement = element.parentElement;
-    parentElement.removeChild(element);
+
+    //if remove button was clicked on main table
+    if(e.path[8].id == "section-three"){
+        numMainCourses--;
+    }
+
+    //if remove button was clicked on alternate table
+    if(e.path[8].id == "section-four"){ 
+        numAlternativeCourses--;
+    }
+
+    const element = e.target.parentElement.parentElement.parentElement;
+    const parent = element.parentElement;
+    parent.removeChild(element);
+    const tableColumns = parent.parentElement.parentElement;
+    const tableSection = tableColumns.parentElement;
+    //get rid of the table columns
+    if(numMainCourses == 0){
+        tableSection.removeChild(tableColumns);
+    }
+    if(numAlternativeCourses == 0) {
+        tableSection.removeChild(tableColumns);
+    }
 }
 
 //this function will either hide the table or show the table
