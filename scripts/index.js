@@ -5,7 +5,12 @@
 //I could have implemented an object with a static variable containing #classes
 let numMainCourses = 0;
 let numAlternativeCourses = 0;
-let numSubjectsReturned = 0;
+
+//this is an object to keep track of the classes added inisde your schedule
+//global variable
+let mainCourses = [];
+let alternateCourses = [];
+
 getCourseSubjects();
 
 //funciton to populate check box areas with course subjects
@@ -130,7 +135,7 @@ function getClassesRequest(subjects, attributes) {
         //if no checkboxes were selected
         if(courses.length < 1)
             createAlert("No classes returned with that combination");
-         
+
         //clean the data     
         else  {
             let allCourses = [];
@@ -422,18 +427,36 @@ function addEventListeners(element,eventHandlerName) {
 
 function addCourseToMainList(e) {
     e.preventDefault();
-    numMainCourses++;
-    console.log(e);
-    let jsonData = e.target.data;
+    //console.log(e);
+    let selectedClass = e.target.data;
+    console.log(selectedClass);
+    //add course to mainList if no classes exist
+    if(numMainCourses == 0) {
+        mainCourses.push(selectedClass);
+        numMainCourses++;
+        createAlert("Course added to your main schedule");
+        insertTableData(selectedClass,"main-schedule",numMainCourses);  
+    }
+    //compare mainCourses list to see if the class already exists
+    else{
+        var courseIsPresent = checkIfCourseExists(selectedClass,"main-courses");
+        if(courseIsPresent == false) {
+            mainCourses.push(selectedClass);
+            numMainCourses++;
+            createAlert("Course added to your main schedule");
+            insertTableData(selectedClass,"main-schedule",numMainCourses);  
+        }
+    }
+    
+   // mainCourses.push(selectedClass);
 
     //if the button was pressed on the alternate table we need to remove that row from the table as well
     if(e.path[8].id == "section-four"){
-        removeCourse(e);
-        numAlternativeCourses--;
+        console.log("its hitting this");
+        removeCourse(e,"alternate-courses");
     }
 
-    //display selected course in a table format
-    insertTableData(jsonData,"main-schedule",numMainCourses);     
+    //display selected course in a table format   
     //check to see if the class already exists or if it conflicts with another class existing in the schedule
     //store array containing class ids and compare each time a new class is sent
     //if the class conflicts, ask the user if they want to send it to the alternative list
@@ -442,40 +465,94 @@ function addCourseToMainList(e) {
 }
 
 function addCourseToAlternateList(e) {
-    let jsonData;
-    numAlternativeCourses++;
+    let selectedClass;
+    
     console.log(e);
     if(e.target.data == null) {
-        jsonData = e.target.parentElement.parentElement.children[0].children[0].data;
+        selectedClass = e.target.parentElement.parentElement.children[0].children[0].data;
     }
     else {
-        jsonData = e.target.data;    
+        selectedClass = e.target.data;    
+    }
+
+    if(numAlternativeCourses == 0) {
+        alternateCourses.push(selectedClass);
+        numAlternativeCourses++;
+        createAlert("Course added to your alternative schedule");
+        insertTableData(selectedClass,"alternate-schedule",numAlternativeCourses);    
+    }
+    else{
+        var courseIsPresent = checkIfCourseExists(selectedClass,"alternate-courses");
+        if(courseIsPresent == false) {
+            alternateCourses.push(selectedClass);
+            numAlternativeCourses++;
+            createAlert("Course added to your alternative schedule");
+            insertTableData(selectedClass,"alternate-schedule",numAlternativeCourses);  
+        }
     }
 
     //if the button was pressed on the main table we need to remove that row from the table as well
     if(e.path[8].id == "section-three"){
-        removeCourse(e);
-        numMainCourses--;
+        removeCourse(e,"main-courses");
     }
-       
-    //jsonData = e.target.parentElement.parentElement.children[0].children[0].data;
-    insertTableData(jsonData,"alternate-schedule",numAlternativeCourses);    
-    //if the same class is already present in the table send alert
+}
+
+function checkIfCourseExists(selectedClass,whichTable) {
+    let doesClassExist = false;
+
+    if(whichTable == "main-courses"){
+        for(var i = 0; i < mainCourses.length; i++) {
+            if(mainCourses[i].courseID == selectedClass.courseID){
+                    createAlert("This course already exists in your schedule");
+                    doesClassExist = true;
+                    break;
+            }
+        }
+    }
+    
+    if(whichTable == "alternate-courses"){
+        for(var i = 0; i < alternateCourses.length; i++) {
+            if(alternateCourses[i].courseID == selectedClass.courseID){
+                    createAlert("This course already exists in your schedule");
+                    doesClassExist = true;
+                    break;
+            }
+        }
+    }
+
+    return doesClassExist;
 }
 
 //removes the element from the dom
-function removeCourse(e) {
-    //console.log(e);
-    //e.preventDefault();
-
+function removeCourse(e, fromCourse="none") {
+    let removedCourse = e.target.parentElement.parentElement.children[1].children[0].data;
     //if remove button was clicked on main table
-    if(e.path[8].id == "section-three"){
+    console.log(removedCourse);
+    if(e.path[8].id == "section-three" && fromCourse == "none"){
+        console.log("removing course from main");
         numMainCourses--;
+        findAndRemoveCourse(removedCourse,"main-courses");
     }
 
+    
     //if remove button was clicked on alternate table
-    if(e.path[8].id == "section-four"){ 
+    if(e.path[8].id == "section-four" && fromCourse == "none"){ 
+        console.log("removing course from alternative");
         numAlternativeCourses--;
+        findAndRemoveCourse(removedCourse,"alternate-courses");
+    }
+
+    //deduct 1 from the total alternative courses when a course is added from the alternative courses to main courses
+    else if(e.path[8].id == "section-four" && fromCourse == "alternate-courses"){
+        console.log("removing course from alternative");
+        numAlternativeCourses--;
+        findAndRemoveCourse(removedCourse,"alternate-courses");
+    }
+
+    else if(e.path[8].id == "section-three" && fromCourse == "main-courses"){
+        console.log("removing course from main");
+        numMainCourses--;
+        findAndRemoveCourse(removedCourse,"main-courses");
     }
 
     const element = e.target.parentElement.parentElement.parentElement;
@@ -484,13 +561,50 @@ function removeCourse(e) {
     const tableColumns = parent.parentElement.parentElement;
     const tableSection = tableColumns.parentElement;
     //get rid of the table columns
-    if(numMainCourses == 0){
+    console.log(numMainCourses);
+    if(numMainCourses == 0 && e.path[8].id == "section-three"){
         tableSection.removeChild(tableColumns);
     }
-    if(numAlternativeCourses == 0) {
+    if(numAlternativeCourses == 0 && e.path[8].id == "section-four") {
         tableSection.removeChild(tableColumns);
     }
 }
+
+function findAndRemoveCourse(courseToRemove,whichTable){
+
+    console.log(courseToRemove);
+    console.log("before");
+    console.log("alternate courses");
+    console.log(alternateCourses);
+    console.log("main courses");
+    console.log(mainCourses);
+    
+    if(whichTable == "main-courses") {
+        for(var i = 0; i < mainCourses.length; i++) {
+            if(mainCourses[i].courseID == courseToRemove.courseID){
+                mainCourses.splice(i,1);
+                break;
+            }
+        }
+    }
+
+    if(whichTable == "alternate-courses") {
+        console.log("its hitting this");
+        
+        for(var i = 0; i < alternateCourses.length; i++) {
+            if(alternateCourses[i].courseID == courseToRemove.courseID){
+                console.log("how about this");
+                alternateCourses.splice(i,1);
+                break;
+            }
+        }
+    }
+    console.log("after");
+    console.log("alternate courses");
+    console.log(alternateCourses);
+    console.log("main courses");
+    console.log(mainCourses);
+}   
 
 //this function will either hide the table or show the table
 function tableDisplay(element, value) {
