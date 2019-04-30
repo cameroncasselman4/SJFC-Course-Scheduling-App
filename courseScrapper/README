@@ -1,0 +1,17 @@
+To start, run the script “start.sh”.  It takes about 30 seconds to run, since it scrapes the website, processes the information, creates a database, and inserts the information into the database.
+
+In alphabetical order:
+
+The “createTables.php” file creates the tables.
+
+The “db.php” file is a connection to the database.  This will probably need to be changed if this is being implemented on campus, unless you want to run it off of my database.
+
+The “departmentList.php” file is just a list of all of the departments.  I probably should have written a script to update it, but I just copied and pasted them all in once.  If there are any departments added, put them in.
+
+The “grabPage.php” executes the cURL and saves the output as “rawData.txt”.
+
+The “insertData.php” will take the data and put it into the database.  It takes a while.
+
+The “processData.php” will take the data from “rawData.txt” and make it into a readable format for “insertData.php to use”.
+
+In the end, there had to be 6 tables in the database.  Three wasn’t working.  course_instructor and course_schedule had to be added to connect the course and instructor, and the course and schedule, respectively.  There is also one for the departments.
