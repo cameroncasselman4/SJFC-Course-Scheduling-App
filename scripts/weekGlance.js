@@ -32,30 +32,30 @@ function timeSort(props) {
             //if first class is pm and second class is am swap
 
             if(firstTime.includes("PM") && secondTime.includes("AM")){
-                console.log("swapping AM and PM");
+               // console.log("swapping AM and PM");
                 swap(j,j+1);
             }
             else if(firstTime.includes("PM") && secondTime.includes("PM")){
                 if(fristTimeNum > secondTimeNum){
-                    console.log("swapped two PMs");
+                  //  console.log("swapped two PMs");
                     swap(j,j+1);
                 }
             }
             else if(firstTime.includes("AM") && secondTime.includes("AM")){
                 if(fristTimeNum > secondTimeNum){
-                    console.log("swapped two AMs");
+                    //console.log("swapped two AMs");
                     swap(j,j+1);
                 }
             }
             //sometimes there might not be a time. In this case we want to push it ot the ned of the array
             else if(props[j].times == ""){
-                console.log("swapped a class without a time");
+                //console.log("swapped a class without a time");
                 swap(j,j+1);
             }
         }
     }
 
-    console.log("after");
+   // console.log("after");
     console.log(props);
     
     function swap(a,b) {
@@ -63,17 +63,50 @@ function timeSort(props) {
         props[a] = props[b];
         props[b] = temp;
     }
+    return props;
 }
 
 class DisplayDay extends React.Component {
 
+    buildUI(){
+
+        let classesArray = this.props.data;
+        let currentDay = this.props.day;
+
+        if(classesArray.length > 1 && currentDay != "Other")
+            //time will sort the classes in order from earliest to latest
+            classesArray = timeSort(this.props.data);
+
+        let buildUI = "";
+
+        if(classesArray.length == 0){
+            buildUI +=  <div>
+                            <h2>No classes scheduled</h2>
+                        </div>;
+        }
+
+        else{
+
+            for(var i=0; i<classesArray.length; i++){
+                console.log(classesArray[i].times);
+                buildUI +=  <div><h2>{JSON.stringify(classesArray[i].times)}  |  {JSON.stringify(classesArray[i].title)}</h2></div>;
+            }
+
+            console.log(buildUI);
+        }
+
+        return <div>Hello world</div>;
+ 
+    }
+
     render() {
 
-        if(this.props.data.length > 1 && this.props.day != "Other")
-            timeSort(this.props.data);
-        //console.log(this.props.day)
-        return (
-            <h1>{"hello world"}</h1>
+        
+        return ( 
+            <div>
+                <h1>{this.props.day}</h1>
+                {this.buildUI()}
+            </div>
         );
     }
 }
@@ -137,15 +170,14 @@ function renderWeekGlance() {
         //left off on adding tuesday
         const domContainer = document.querySelector('#weekGlance_container');
         ReactDOM.render(
-            <div>
+            <div className="text-box-container">
                 <DisplayDay key="monday" data={weekDayArray[0]} day="Monday"/>
                 <DisplayDay key="tuesday" data={weekDayArray[1]} day="Tuesday"/>
+                {/* <DisplayDay key="wednesday" data={weekDayArray[2]} day="Wednesday"/>
+                <DisplayDay key="thursday" data={weekDayArray[3]} day="Thursday"/>
+                <DisplayDay key="friday" data={weekDayArray[4]} day="Friday"/>
+                <DisplayDay key="other" data={weekDayArray[5]} day="Other"/>  */}
             </div>,
-            
-            //<DisplayDay data={weekDayArray[2]} day="Wednesday"/>,
-            //<DisplayDay data={weekDayArray[3]} day="Thursday"/>,
-            //<DisplayDay data={weekDayArray[4]} day="Friday"/>,
-            //<DisplayDay data={weekDayArray[5]} day="Other"/>,
             domContainer
         );
     }
