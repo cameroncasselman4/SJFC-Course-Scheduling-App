@@ -456,7 +456,7 @@ function addCourseToMainList(e) {
 
     //if the button was pressed on the alternate table we need to remove that row from the table as well
     if(e.path[8].id == "section-four"){
-        console.log("its hitting this");
+       // console.log("its hitting this");
         removeCourse(e,"alternate-courses");
     }
 
@@ -467,7 +467,7 @@ function addCourseToMainList(e) {
 function addCourseToAlternateList(e) {
     let selectedClass;
     
-    console.log(e);
+    //console.log(e);
     if(e.target.data == null) {
         selectedClass = e.target.parentElement.parentElement.children[0].children[0].data;
     }
@@ -526,7 +526,7 @@ function checkIfCourseExists(selectedClass,whichTable) {
 function checkIfCourseConflicts(selectedClass) {
     //if course is on same day and at the same time
     let doesClassConflict = false;
-    console.log(selectedClass);
+   // console.log(selectedClass);
     for(var i = 0; i < mainCourses.length; i++) {
         if(mainCourses[i].days == selectedClass.days && mainCourses[i].times == selectedClass.times ||
             mainCourses[i].days){
@@ -542,9 +542,9 @@ function checkIfCourseConflicts(selectedClass) {
 function removeCourse(e, fromCourse="none") {
     let removedCourse = e.target.parentElement.parentElement.children[1].children[0].data;
     //if remove button was clicked on main table
-    console.log(removedCourse);
+    //console.log(removedCourse);
     if(e.path[8].id == "section-three" && fromCourse == "none"){
-        console.log("removing course from main");
+      //  console.log("removing course from main");
         numMainCourses--;
         findAndRemoveCourse(removedCourse,"main-courses");
     }
@@ -552,20 +552,20 @@ function removeCourse(e, fromCourse="none") {
     
     //if remove button was clicked on alternate table
     if(e.path[8].id == "section-four" && fromCourse == "none"){ 
-        console.log("removing course from alternative");
+        //console.log("removing course from alternative");
         numAlternativeCourses--;
         findAndRemoveCourse(removedCourse,"alternate-courses");
     }
 
     //deduct 1 from the total alternative courses when a course is added from the alternative courses to main courses
     else if(e.path[8].id == "section-four" && fromCourse == "alternate-courses"){
-        console.log("removing course from alternative");
+        //console.log("removing course from alternative");
         numAlternativeCourses--;
         findAndRemoveCourse(removedCourse,"alternate-courses");
     }
 
     else if(e.path[8].id == "section-three" && fromCourse == "main-courses"){
-        console.log("removing course from main");
+        //console.log("removing course from main");
         numMainCourses--;
         findAndRemoveCourse(removedCourse,"main-courses");
     }
@@ -576,7 +576,7 @@ function removeCourse(e, fromCourse="none") {
     const tableColumns = parent.parentElement.parentElement;
     const tableSection = tableColumns.parentElement;
     //get rid of the table columns
-    console.log(numMainCourses);
+    //console.log(numMainCourses);
     if(numMainCourses == 0 && e.path[8].id == "section-three"){
         tableSection.removeChild(tableColumns);
     }

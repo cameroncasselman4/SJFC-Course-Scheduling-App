@@ -222,6 +222,29 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     margin: 20px;
 }
 
+#section-five {
+    text-align: center;    
+}
+.section-five-header {
+    padding: 2em 0px;
+    background: #F7D778;
+    color: #333;
+    text-align: left;
+}
+.section-five-header > h2{
+    padding-left: 20px;
+}
+
+.week-glance-message {
+    padding: 1em;
+    background: #ddd;
+}
+.alternate-courses-table {
+    overflow-x:auto;
+    font-size: 12px;
+    margin: 20px;
+}
+
 /* tablets/bigger phones */
 @media (min-width: 768px) {
     /* nav bar */
