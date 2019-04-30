@@ -4,13 +4,28 @@
   "description": "REST endpoints for course scheduling website to consume for class information",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel scripts --out-dir lib"
   },
   "author": "Cameron Casselman",
   "license": "ISC",
   "dependencies": {
+    "babel-preset-react-app": "^3.1.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "mysql": "^2.16.0"
-  }
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cameroncasselman4/SJFC-Course-Scheduling-App.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/cameroncasselman4/SJFC-Course-Scheduling-App/issues"
+  },
+  "homepage": "https://github.com/cameroncasselman4/SJFC-Course-Scheduling-App#readme"
 }
