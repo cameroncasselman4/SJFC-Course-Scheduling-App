@@ -221,7 +221,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     font-size: 12px;
     margin: 20px;
 }
-
+/* section five */
 #section-five {
     text-align: center;    
 }
@@ -230,6 +230,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     background: #F7D778;
     color: #333;
     text-align: left;
+    display:flex;
 }
 .section-five-header > h2{
     padding-left: 20px;
@@ -239,11 +240,59 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     padding: 1em;
     background: #ddd;
 }
-.alternate-courses-table {
-    overflow-x:auto;
-    font-size: 12px;
-    margin: 20px;
+
+#week-glance-container {
+    display:flex;
+    justify-content: space-evenly;
+    flex-direction: column;
 }
+
+
+
+.day-header{
+    text-align: center;
+    padding-bottom: 5px;
+    text-decoration: underline #F7D778;
+}
+
+.day-container{
+    box-sizing: border-box;
+    width: 100%;  
+    padding: 0.8em 1.2em;
+    overflow: hidden; 
+    border: solid #D8D8D8;   
+}
+
+.day-container:nth-child(even) {background-color: #f2f2f2;}
+.day-container:hover {background-color:#f5f5f5;}
+
+.display-courses{
+    display:inline-block;
+    text-align: left;
+}
+
+.week-glance-row{
+    margin-bottom: 5px;
+}
+strong{
+    color: red;
+}
+
+.printBtn{
+    display: inline-block; /*Displays an element as an inline-level block container. The element itself is formatted as an inline element, but you can apply height and width values*/
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right:10px;
+    padding: .5em 2em;
+}
+
+.printBtn:hover {
+    background: #993333;
+    color: #fff;
+}
+
 
 /* tablets/bigger phones */
 @media (min-width: 768px) {

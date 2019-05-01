@@ -1,5 +1,4 @@
 'use strict';
-
 //WeekGlance js will organize all the main courses into days of the week
 //we then call the Display day componenet for each day of the week to display the students agenda
 
@@ -67,18 +66,20 @@ class DisplayDay extends React.Component {
             //time will sort the classes in order from earliest to latest
             classesArray = timeSort(this.props.data);
 
-        let buildUI = "";
         let renderData = [];
 
         if(classesArray.length == 0){
-            renderData.push(<h4 key={currentDay}>No Classes</h4>);
+            renderData.push(<div className="week-glance-row" key={currentDay}><h4>No Classes</h4></div>);
             //buildUI = '<h4>No classes</h4>'
         }
 
         else{
             
             for(var i=0; i<classesArray.length; i++){
-                renderData.push(<h4 key={classesArray[i].title}>{classesArray[i].times} <strong className="colorPipe">|</strong> {classesArray[i].title}</h4>);
+                if(classesArray[i].times == "")
+                    renderData.push(<div className="week-glance-row" key={classesArray[i].title}><h4>{classesArray[i].title}</h4></div>);
+                else    
+                    renderData.push(<div className="week-glance-row" key={classesArray[i].title}><h4>{classesArray[i].times} <strong> | </strong> {classesArray[i].title}</h4></div>);
             }
         }
         return renderData;
@@ -86,9 +87,13 @@ class DisplayDay extends React.Component {
 
     render() {
         return ( 
-            <div>
-                <h3>{this.props.day}</h3>
-                <div>{this.buildUI()}</div>
+            <div className="day-container">
+                <div className="day-header">
+                    <h3>{this.props.day}</h3>
+                </div>
+                <div className="display-courses">
+                    {this.buildUI()}
+                </div>
             </div>
         );
     }
@@ -104,6 +109,19 @@ function renderWeekGlance() {
         createAlert("You must have at least one course to view your weekly agenda");
     }
     else {
+        //hide message
+        const weedGlanceMessage =  document.querySelector(".week-glance-message");
+        weedGlanceMessage.style.display = "none";
+        
+        //create a print button
+        const weekGlanceHeader = document.querySelector(".section-five-header");
+        console.log(weekGlanceHeader);
+        const printBtn = document.createElement("div");
+        printBtn.className = "printBtn";
+        printBtn.innerHTML = "Print";
+        printBtn.addEventListener("click",printFunc);
+        weekGlanceHeader.appendChild(printBtn);
+
         let weekDayArray = [];
         let monday = [];
         let tuesday = [];
@@ -188,7 +206,7 @@ function renderWeekGlance() {
         
         const domContainer = document.querySelector('#weekGlance_container');
         ReactDOM.render(
-            <div className="text-box-container">
+            <div id="week-glance-container">
                 {renderData()}
             </div>,
             domContainer
