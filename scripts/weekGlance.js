@@ -25,38 +25,28 @@ function timeSort(props) {
             else
                 var secondTimeNum = secondTime.replace(':',"").replace('AM',"") 
             
-            //console.log("First number  without colon ", fristTimeNum);
-            //console.log("Second number  without colon ", secondTimeNum);
-
             //parse object's time to cut off everything after "-"
             //if first class is pm and second class is am swap
 
             if(firstTime.includes("PM") && secondTime.includes("AM")){
-               // console.log("swapping AM and PM");
                 swap(j,j+1);
             }
             else if(firstTime.includes("PM") && secondTime.includes("PM")){
                 if(fristTimeNum > secondTimeNum){
-                  //  console.log("swapped two PMs");
                     swap(j,j+1);
                 }
             }
             else if(firstTime.includes("AM") && secondTime.includes("AM")){
                 if(fristTimeNum > secondTimeNum){
-                    //console.log("swapped two AMs");
                     swap(j,j+1);
                 }
             }
             //sometimes there might not be a time. In this case we want to push it ot the ned of the array
             else if(props[j].times == ""){
-                //console.log("swapped a class without a time");
                 swap(j,j+1);
             }
         }
     }
-
-   // console.log("after");
-    console.log(props);
     
     function swap(a,b) {
         let temp = props[a];
@@ -78,34 +68,27 @@ class DisplayDay extends React.Component {
             classesArray = timeSort(this.props.data);
 
         let buildUI = "";
+        let renderData = [];
 
         if(classesArray.length == 0){
-            buildUI +=  <div>
-                            <h2>No classes scheduled</h2>
-                        </div>;
+            renderData.push(<h4 key={currentDay}>No Classes</h4>);
+            //buildUI = '<h4>No classes</h4>'
         }
 
         else{
-
+            
             for(var i=0; i<classesArray.length; i++){
-                console.log(classesArray[i].times);
-                buildUI +=  <div><h2>{JSON.stringify(classesArray[i].times)}  |  {JSON.stringify(classesArray[i].title)}</h2></div>;
+                renderData.push(<h4 key={classesArray[i].title}>{classesArray[i].times} <strong className="colorPipe">|</strong> {classesArray[i].title}</h4>);
             }
-
-            console.log(buildUI);
         }
-
-        return <div>Hello world</div>;
- 
+        return renderData;
     }
 
     render() {
-
-        
         return ( 
             <div>
-                <h1>{this.props.day}</h1>
-                {this.buildUI()}
+                <h3>{this.props.day}</h3>
+                <div>{this.buildUI()}</div>
             </div>
         );
     }
@@ -113,7 +96,6 @@ class DisplayDay extends React.Component {
 
 const weekGlanceBtn = document.querySelector("#weekGlance_btn");
 weekGlanceBtn.addEventListener("click",renderWeekGlance);
-
 
 //this function organizes main courses into an array of 5 separate arrays
 function renderWeekGlance() {
@@ -154,8 +136,7 @@ function renderWeekGlance() {
             }
             else {
                 other.push(mainCourses[i]);
-            }
-            
+            }    
         }
 
         weekDayArray.push(monday);
@@ -163,20 +144,52 @@ function renderWeekGlance() {
         weekDayArray.push(wednesday);
         weekDayArray.push(thursday);
         weekDayArray.push(friday);
-        if(other.length > 0) {
-            weekDayArray.push(other);
+        weekDayArray.push(other);
+        
+        function renderData() {
+            let renderData = [];
+            let keyName;
+            let dataLocation;
+            
+            //creating react dom elements
+            for(var i=0; i < 5; i++) {
+                switch(i) {
+                    case 0:
+                        keyName = "Monday"
+                        dataLocation = weekDayArray[i]
+                        break;
+                    case 1:
+                        keyName = "Tuesday";
+                        dataLocation = weekDayArray[i]
+                        break;    
+                    case 2:
+                        keyName = "Wednesday";
+                        dataLocation = weekDayArray[i]
+                        break;
+                    case 3:
+                        keyName = "Thursday";
+                        dataLocation = weekDayArray[i]
+                        break;
+                    case 4:
+                        keyName = "Friday";
+                        dataLocation = weekDayArray[i]
+                        break;                   
+                }
+
+                renderData.push(<DisplayDay key={keyName} data={dataLocation} day={keyName}/>)
+            }
+            
+            //we need to push one more element if the user is taking classes without a day/time
+            if(other.length > 0){
+                renderData.push(<DisplayDay key="Other" data={weekDayArray[5]} day="Other"/>);
+            }
+            return renderData;
         }
-        //console.log(weekDayArray);
-        //left off on adding tuesday
+        
         const domContainer = document.querySelector('#weekGlance_container');
         ReactDOM.render(
             <div className="text-box-container">
-                <DisplayDay key="monday" data={weekDayArray[0]} day="Monday"/>
-                <DisplayDay key="tuesday" data={weekDayArray[1]} day="Tuesday"/>
-                {/* <DisplayDay key="wednesday" data={weekDayArray[2]} day="Wednesday"/>
-                <DisplayDay key="thursday" data={weekDayArray[3]} day="Thursday"/>
-                <DisplayDay key="friday" data={weekDayArray[4]} day="Friday"/>
-                <DisplayDay key="other" data={weekDayArray[5]} day="Other"/>  */}
+                {renderData()}
             </div>,
             domContainer
         );
