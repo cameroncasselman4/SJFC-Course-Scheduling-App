@@ -638,12 +638,41 @@ function tableDisplay(element, value) {
     elem[0].style.display = value;
 }
 
+function createPrintButton() {
+    //create a print button
+    const weekGlanceHeader = document.querySelector(".section-five-header");
+    //remove it from the dom first because it might already be there
+    let  printBtn = document.querySelector(".printBtn");
+    
+    if(printBtn == null)
+        createIt();
+    else{
+        removeIt();
+        createIt();
+    }    
+
+    function removeIt(){
+        weekGlanceHeader.removeChild(printBtn)
+    }
+
+    function createIt(){
+        printBtn = document.createElement("div");
+        printBtn.className = "printBtn";
+        printBtn.innerHTML = "Print";
+        printBtn.addEventListener("click",printFunc);
+        weekGlanceHeader.appendChild(printBtn);
+    }
+
+
+    console.log(weekGlanceHeader);
+    
+}
+
 //function to print the week at a glance 
 function printFunc(){
     const printBtn = document.querySelector(".printBtn");
     printBtn.innerHTML = "";
     const printDiv = document.querySelector("#print").innerHTML;
-
     const oldHTML = document.body.innerHTML;
 
     //Reset the pages HTML with divs HTML only
@@ -653,9 +682,9 @@ function printFunc(){
 
     //print the page
     window.print();
-    printBtn.innerHTML = "Print";
     //restore original html
     document.body.innerHTML = oldHTML;
+    createPrintButton();
 }
 
 function createAlert(message) {
