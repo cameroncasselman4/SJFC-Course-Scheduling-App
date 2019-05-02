@@ -9,6 +9,7 @@ function timeSort(props) {
     //perform bubble sort on the array
     for(var i = 1; i < props.length; i++){
         for(var j =0; j < props.length-1; j++){
+
             //we only care about the starting times for each class
             var firstTime = props[j].times.substr(0,props[j].times.indexOf("-"));
             var secondTime = props[j+1].times.substr(0,props[j+1].times.indexOf("-"));
@@ -17,7 +18,7 @@ function timeSort(props) {
             if(firstTime.includes("PM"))
                 var fristTimeNum = firstTime.replace(':',"").replace('PM',"");
             else
-                var fristTimeNum = firstTime.replace(':',"").replace('AM',"") 
+                var fristTimeNum = firstTime.replace(':',"").replace('AM',""); 
             
             if(secondTime.includes("PM"))
                 var secondTimeNum = secondTime.replace(':',"").replace('PM',"");
@@ -112,15 +113,8 @@ function renderWeekGlance() {
         //hide message
         const weedGlanceMessage =  document.querySelector(".week-glance-message");
         weedGlanceMessage.style.display = "none";
-        
-        //create a print button
-        const weekGlanceHeader = document.querySelector(".section-five-header");
-        console.log(weekGlanceHeader);
-        const printBtn = document.createElement("div");
-        printBtn.className = "printBtn";
-        printBtn.innerHTML = "Print";
-        printBtn.addEventListener("click",printFunc);
-        weekGlanceHeader.appendChild(printBtn);
+
+        createPrintButton();
 
         let weekDayArray = [];
         let monday = [];

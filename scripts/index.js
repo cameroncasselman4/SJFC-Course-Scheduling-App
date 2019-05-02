@@ -59,7 +59,6 @@ function getClasses() {
     else{
         getClassesRequest(checkedSubjects,checkedAttributes);
     }
-   // getCheckedAttributes();    
 }
 
 //returns array of ids from checked boxes
@@ -176,15 +175,12 @@ function getClassesRequest(subjects, attributes) {
                 
                 if(i != courses.length -1){
             
-                   // console.log("next course depID " + courses[i+1].departmentID + " next subject " + newSubjects[count+1])
                     if(courses[i+1].departmentID == newSubjects[count+1]) {
                     //append subjectsArray to all courses
-                       // console.log(courses[i]);
                         count++;
                         var clone = subjectsArray.slice(0);
                         allCourses.push(clone);
                         subjectsArray.length = 0;                         
-                    //             insertTableData(newArray);
                     }
                 }
                 else{
@@ -195,10 +191,8 @@ function getClassesRequest(subjects, attributes) {
             
             console.log(allCourses);
 
-            //console.log(allCourses);
             for(var i=0; i < allCourses.length;i++) {
-               // console.log("course " + i);
-                //console.log(allCourses[i]);
+               
                 insertTableData(allCourses[i],"course-search");  
             }
         }
@@ -212,7 +206,7 @@ function removeTableElements(parentElement,childElement) {
         for(var i=0;i<tableElements.length;i++) {
             const parent = document.querySelector(parentElement);
             const child = document.querySelector(childElement);
-            // if((parent !== null)&&(child !== null))
+            
             parent.removeChild(child);
         }
     }
@@ -319,11 +313,8 @@ function insertTableData(jsonData,whichTable,numCourses=0){
         //this function adds the tbl variable to the dom
         tableBody = createTableElements(tbl,"#section-two"); 
 
-        //for(var i = 0; i < jsonData.length; i++){
-            //pass row id and json
-            //store json in a data object stored for each row element.
-            attachJsonToRow(jsonData,tableBody);
-        //}
+        attachJsonToRow(jsonData,tableBody);
+
         //add event listeners for course-search table
         //add event listeners to the main courses btn
         addEventListeners(".btn_main",addCourseToMainList);
@@ -434,25 +425,31 @@ function addCourseToMainList(e) {
     let selectedClass = e.target.data;
     console.log(selectedClass);
     //add course to mainList if no classes exist
-    if(numMainCourses == 0) {
-        mainCourses.push(selectedClass);
-        numMainCourses++;
-        createAlert("Course added to your main schedule");
-        insertTableData(selectedClass,"main-schedule",numMainCourses);  
-    }
-    //compare mainCourses list to see if the class already exists
-    else{
-        var courseIsPresent = checkIfCourseExists(selectedClass,"main-courses");
-       // var courseConflict = checkIfCourseConflicts(selectedClass);
-        if(courseIsPresent == false) {
+    if(selectedClass.seatsAvailable > 0){
+        if(numMainCourses == 0) {
             mainCourses.push(selectedClass);
             numMainCourses++;
             createAlert("Course added to your main schedule");
             insertTableData(selectedClass,"main-schedule",numMainCourses);  
         }
-    }
     
-   // mainCourses.push(selectedClass);
+        //compare mainCourses list to see if the class already exists
+        else{
+            var courseIsPresent = checkIfCourseExists(selectedClass,"main-courses");
+            var courseConflict = checkIfCourseConflicts(selectedClass);
+            //check if there any seats available
+    
+            if(courseIsPresent == false) {
+                mainCourses.push(selectedClass);
+                numMainCourses++;
+                createAlert("Course added to your main schedule");
+                insertTableData(selectedClass,"main-schedule",numMainCourses);  
+            }
+        }
+    }
+    else {
+        createAlert("There are no seats available for this class");
+    }
 
     //if the button was pressed on the alternate table we need to remove that row from the table as well
     if(e.path[8].id == "section-four"){
@@ -525,17 +522,67 @@ function checkIfCourseExists(selectedClass,whichTable) {
 
 function checkIfCourseConflicts(selectedClass) {
     //if course is on same day and at the same time
-    let doesClassConflict = false;
-   // console.log(selectedClass);
+    let doesClassConflict = false;    
+
+    //variables for comparing the current class to the classes already in the main schedule
+    let selectedClassStartTime = "";
+    let selectedClassEndTime = "";
+    let newSelectedClassStartTime = ""
+    let newSelectedClassEndTime = ""
+    let comparingClassStartTime = "";
+    let comparingClassEndTime = "";
+    let newComparingClassStartTime = "";
+    let newComparingClassEndTime = "";
+    let comparingClass = "";
+    let sameDay = false;
+    let daysCharacter = "";
+
     for(var i = 0; i < mainCourses.length; i++) {
-        if(mainCourses[i].days == selectedClass.days && mainCourses[i].times == selectedClass.times ||
-            mainCourses[i].days){
-            doesClassConflict = true;
-            createAlert("This course conflicts with another course in your schedule. Add course to alternative list or remove it.");
-            break;
+        //check to see if course takes place on the same day
+        comparingClass = mainCourses[i];
+        for(var j=0; j < comparingClass.days.length; j++){
+            
+            daysCharacter = comparingClass.days.charAt(j);
+            if(selectedClass.days.includes(daysCharacter) == true){
+                sameDay = true;
+                break;
+            }
         }
+
+        if(sameDay == true){
+            //compare the times of the classes
+
+            //strip off "-" and get times before and after "-"
+            selectedClassStartTime = selectedClass.times.substr(0,selectedClass.times.indexOf("-"));
+            selectedClassEndTime = selectedClass.times.split('-')[1];
+            comparingClassStartTime = comparingClass.times.substr(0,mainCourses[i].times.indexOf("-"));
+            comparingClassEndTime = comparingClass.times.split('-')[1];
+
+            //convert each time to military time
+            newComparingClassStartTime = convertToMilitaryTime(comparingClassStartTime);
+            newComparingClassEndTime = convertToMilitaryTime(comparingClassEndTime);
+            newSelectedClassStartTime = convertToMilitaryTime(selectedClassStartTime);
+            newSelectedClassEndTime = convertToMilitaryTime(selectedClassEndTime);
+
+            
+        }
+        else{
+            console.log("course added");
+        }
+
+      //  console.log(newComparingClassStartTime);
+       // console.log(newComparingClassEndTime);
+
     }
     return doesClassConflict;
+}
+
+//function to convert a standard time string to military time. Strings need to be formated like "8:00 AM"
+function convertToMilitaryTime(timeString){
+    var d = new Date("1/1/2013 " + timeString); 
+    newTime = d.getHours() + ':' + d.getMinutes(); 
+    newTime = newTime.replace(":","");
+    return newTime;
 }
 
 //removes the element from the dom
@@ -549,7 +596,6 @@ function removeCourse(e, fromCourse="none") {
         findAndRemoveCourse(removedCourse,"main-courses");
     }
 
-    
     //if remove button was clicked on alternate table
     if(e.path[8].id == "section-four" && fromCourse == "none"){ 
         //console.log("removing course from alternative");
@@ -575,8 +621,8 @@ function removeCourse(e, fromCourse="none") {
     parent.removeChild(element);
     const tableColumns = parent.parentElement.parentElement;
     const tableSection = tableColumns.parentElement;
+
     //get rid of the table columns
-    //console.log(numMainCourses);
     if(numMainCourses == 0 && e.path[8].id == "section-three"){
         tableSection.removeChild(tableColumns);
     }
@@ -586,13 +632,6 @@ function removeCourse(e, fromCourse="none") {
 }
 
 function findAndRemoveCourse(courseToRemove,whichTable){
-
-    // console.log(courseToRemove);
-    // console.log("before");
-    // console.log("alternate courses");
-    // console.log(alternateCourses);
-    // console.log("main courses");
-    // console.log(mainCourses);
     
     if(whichTable == "main-courses") {
         for(var i = 0; i < mainCourses.length; i++) {
@@ -614,23 +653,7 @@ function findAndRemoveCourse(courseToRemove,whichTable){
             }
         }
     }
-    // console.log("after");
-    // console.log("alternate courses");
-    // console.log(alternateCourses);
-    // console.log("main courses");
-    // console.log(mainCourses);
 }
-
-
-// function createPDF() {
-//     var pdf = new jsPDF('p', 'pt', 'letter');
-//     pdf.canvas.height = 72 * 11;
-//     pdf.canvas.width = 72 * 8.5;
-
-//     pdf.fromHTML(document.body);
-
-//     pdf.save('test.pdf');
-// }
 
 //this function will either hide the table or show the table
 function tableDisplay(element, value) {
@@ -644,6 +667,7 @@ function createPrintButton() {
     //remove it from the dom first because it might already be there
     let  printBtn = document.querySelector(".printBtn");
     
+    //idk why i had to do it like this but no time to think of a better way
     if(printBtn == null)
         createIt();
     else{
