@@ -13,6 +13,10 @@ body{
     background: #993333;
     border: 1px solid rgba(0,0,0,0.2);
     padding-bottom: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: top 0.3s;
 }
 
 .main-nav {
@@ -58,7 +62,19 @@ body{
 /* This css property will get toggled when hamburger button is pressed */
 .active {
     display: block;
-  }
+}
+.content{
+    padding:16px;
+}
+
+/* .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+} 
+.sticky + .content {
+    padding-top: 60px;
+  } */
 
 /* header */
 #showcase {

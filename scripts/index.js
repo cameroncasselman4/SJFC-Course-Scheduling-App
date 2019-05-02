@@ -1,13 +1,13 @@
 //created by cameron casselman
 //main script to control http requests and course scheduling information
 
-//These global vars are kind of a hack for controlling the amount of classes everytime an event is called
-//I could have implemented an object with a static variable containing #classes
+//These global lets are kind of a hack for controlling the amount of classes everytime an event is called
+//I could have implemented an object with a static letiable containing #classes
 let numMainCourses = 0;
 let numAlternativeCourses = 0;
 
 //this is an object to keep track of the classes added inisde your schedule
-//global variable
+//global letiable
 let mainCourses = [];
 let alternateCourses = [];
 
@@ -27,7 +27,7 @@ function getCourseSubjects() {
 
 //function to loop through every course subject and create html check box containing their associated id
 function populateCheckBox(subj) {
-    for(var i=0; i<subj.length; i++) {
+    for(let i=0; i<subj.length; i++) {
         addCheckBoxInput(subj[i]);
     }
 }
@@ -65,8 +65,8 @@ function getClasses() {
 function getCheckedSubjects() {
     let subjectsArray = [];
     const subjectsContainer = document.querySelector('#getSubjects');
-    var checkboxes = subjectsContainer.querySelectorAll('input[type=checkbox]:checked')
-    for (var i = 0; i < checkboxes.length; i++) {
+    let checkboxes = subjectsContainer.querySelectorAll('input[type=checkbox]:checked')
+    for (let i = 0; i < checkboxes.length; i++) {
       subjectsArray.push(checkboxes[i].id);
     }
     return subjectsArray;
@@ -76,12 +76,12 @@ function checkAllSubjects(e) {
     const subjectsContainer = document.querySelector("#getSubjects");
     let checkboxes = subjectsContainer.querySelectorAll("input[type=checkbox]");
     if(e.checked) {
-        for(var i = 0; i < checkboxes.length; i++) {
+        for(let i = 0; i < checkboxes.length; i++) {
             changeCheckBox(checkboxes[i],true);
         }
     }
     else {
-        for(var i = 0; i < checkboxes.length; i++) {
+        for(let i = 0; i < checkboxes.length; i++) {
             changeCheckBox(checkboxes[i],false);
         }
     }
@@ -92,7 +92,7 @@ function noAttributes(e) {
     let checkboxes = attributesContainer.querySelectorAll("input[type=checkbox]");
 
     if(e.checked) {
-        for(var i = 0; i < checkboxes.length; i++) {
+        for(let i = 0; i < checkboxes.length; i++) {
             changeCheckBox(checkboxes[i],false);
         }
     }
@@ -105,8 +105,8 @@ function changeCheckBox(element, checkValue) {
 function getCheckedAttributes() {
     let attributesArray = [];
     const attributesContainer = document.querySelector('#getAttributes');
-    var checkboxes = attributesContainer.querySelectorAll('input[type=checkbox]:checked')
-    for (var i = 0; i < checkboxes.length; i++) {
+    let checkboxes = attributesContainer.querySelectorAll('input[type=checkbox]:checked')
+    for (let i = 0; i < checkboxes.length; i++) {
       attributesArray.push(checkboxes[i].id);
     }
     return attributesArray;
@@ -140,12 +140,12 @@ function getClassesRequest(subjects, attributes) {
             let allCourses = [];
             let subjectsArray = [];
             let newSubjects=[];
-            var count = 0;
+            let count = 0;
 
             //find which classes are returned and build an array of subjects
             //we need to do this because not all subjects have classes
              
-            for(var i=0; i<courses.length; i++){
+            for(let i=0; i<courses.length; i++){
                                 
                 if(newSubjects.includes(courses[i].departmentID.toString())==false){
                     let found = false;
@@ -169,7 +169,7 @@ function getClassesRequest(subjects, attributes) {
             //create a table for each subject selected
             //ceate an array of arrays for each subject and pass each array into table creator
             count = 0;
-            for(var i = 0; i < courses.length; i++) {
+            for(let i = 0; i < courses.length; i++) {
     
                 subjectsArray.push(courses[i]);
                 
@@ -178,20 +178,20 @@ function getClassesRequest(subjects, attributes) {
                     if(courses[i+1].departmentID == newSubjects[count+1]) {
                     //append subjectsArray to all courses
                         count++;
-                        var clone = subjectsArray.slice(0);
+                        let clone = subjectsArray.slice(0);
                         allCourses.push(clone);
                         subjectsArray.length = 0;                         
                     }
                 }
                 else{
-                    var clone = subjectsArray.slice(0);
+                    let clone = subjectsArray.slice(0);
                     allCourses.push(clone);
                 }
             }
             
             console.log(allCourses);
 
-            for(var i=0; i < allCourses.length;i++) {
+            for(let i=0; i < allCourses.length;i++) {
                
                 insertTableData(allCourses[i],"course-search");  
             }
@@ -203,7 +203,7 @@ function getClassesRequest(subjects, attributes) {
 function removeTableElements(parentElement,childElement) {
     const tableElements = document.querySelectorAll(childElement);
     if(tableElements.length !=0) {
-        for(var i=0;i<tableElements.length;i++) {
+        for(let i=0;i<tableElements.length;i++) {
             const parent = document.querySelector(parentElement);
             const child = document.querySelector(childElement);
             
@@ -250,7 +250,7 @@ function insertTableData(jsonData,whichTable,numCourses=0){
     //this will iterate though multiple rows
     if(whichTable == "course-search") {
         tbl +='<tbody>';
-        for(var i=0; i < jsonData.length; i++) {
+        for(let i=0; i < jsonData.length; i++) {
             tbl += '<tr class="rows" row_id="'+ i +'">';
                 tbl += '<td><div class="row_data">'+ jsonData[i].code + jsonData[i].number + '</div></td>';
                 tbl += '<td><div class="row_data">'+ jsonData[i].courseID + '</div></td>';
@@ -310,7 +310,7 @@ function insertTableData(jsonData,whichTable,numCourses=0){
     let tableBody;
     
     if(whichTable == "course-search"){
-        //this function adds the tbl variable to the dom
+        //this function adds the tbl letiable to the dom
         tableBody = createTableElements(tbl,"#section-two"); 
 
         attachJsonToRow(jsonData,tableBody);
@@ -404,7 +404,7 @@ function appendToCurrentTable(tbl,parent) {
 function attachJsonToRow(jsonData,tableBody) {
     const numTables = tableBody.children.length;
 
-    for(var i = 0; i < jsonData.length; i++){
+    for(let i = 0; i < jsonData.length; i++){
         tableBody.children[numTables-1].children[0].children[3].children[i].children[8].children[0].children[0].data = jsonData[i];    
     }
 }
@@ -412,8 +412,8 @@ function attachJsonToRow(jsonData,tableBody) {
 //used to add event listeners to alternate courses btn, main courses btn, remove btn, 
 //queries for all elements based on the class or id. Also needs the function to be handled by the event
 function addEventListeners(element,eventHandlerName) {
-    var allElements = document.querySelectorAll(element);
-    for(var i=0;i<allElements.length;i++) {
+    let allElements = document.querySelectorAll(element);
+    for(let i=0;i<allElements.length;i++) {
         allElements[i].addEventListener('click',eventHandlerName);
     }
     //console.log(allElements);
@@ -435,15 +435,18 @@ function addCourseToMainList(e) {
     
         //compare mainCourses list to see if the class already exists
         else{
-            var courseIsPresent = checkIfCourseExists(selectedClass,"main-courses");
-            var courseConflict = checkIfCourseConflicts(selectedClass);
+            let courseIsPresent = checkIfCourseExists(selectedClass,"main-courses");
+            
             //check if there any seats available
     
             if(courseIsPresent == false) {
-                mainCourses.push(selectedClass);
-                numMainCourses++;
-                createAlert("Course added to your main schedule");
-                insertTableData(selectedClass,"main-schedule",numMainCourses);  
+                let courseConflict;
+                if(courseConflict = checkIfCourseConflicts(selectedClass) == false){
+                    mainCourses.push(selectedClass);
+                    numMainCourses++;
+                    createAlert("Course added to your main schedule");
+                    insertTableData(selectedClass,"main-schedule",numMainCourses);  
+                }
             }
         }
     }
@@ -479,7 +482,7 @@ function addCourseToAlternateList(e) {
         insertTableData(selectedClass,"alternate-schedule",numAlternativeCourses);    
     }
     else{
-        var courseIsPresent = checkIfCourseExists(selectedClass,"alternate-courses");
+        let courseIsPresent = checkIfCourseExists(selectedClass,"alternate-courses");
         if(courseIsPresent == false) {
             alternateCourses.push(selectedClass);
             numAlternativeCourses++;
@@ -498,7 +501,7 @@ function checkIfCourseExists(selectedClass,whichTable) {
     let doesClassExist = false;
 
     if(whichTable == "main-courses"){
-        for(var i = 0; i < mainCourses.length; i++) {
+        for(let i = 0; i < mainCourses.length; i++) {
             if(mainCourses[i].courseID == selectedClass.courseID){
                     createAlert("This course already exists in your schedule");
                     doesClassExist = true;
@@ -508,7 +511,7 @@ function checkIfCourseExists(selectedClass,whichTable) {
     }
     
     if(whichTable == "alternate-courses"){
-        for(var i = 0; i < alternateCourses.length; i++) {
+        for(let i = 0; i < alternateCourses.length; i++) {
             if(alternateCourses[i].courseID == selectedClass.courseID){
                     createAlert("This course already exists in your schedule");
                     doesClassExist = true;
@@ -524,7 +527,7 @@ function checkIfCourseConflicts(selectedClass) {
     //if course is on same day and at the same time
     let doesClassConflict = false;    
 
-    //variables for comparing the current class to the classes already in the main schedule
+    //letiables for comparing the current class to the classes already in the main schedule
     let selectedClassStartTime = "";
     let selectedClassEndTime = "";
     let newSelectedClassStartTime = ""
@@ -537,10 +540,10 @@ function checkIfCourseConflicts(selectedClass) {
     let sameDay = false;
     let daysCharacter = "";
 
-    for(var i = 0; i < mainCourses.length; i++) {
+    for(let i = 0; i < mainCourses.length; i++) {
         //check to see if course takes place on the same day
         comparingClass = mainCourses[i];
-        for(var j=0; j < comparingClass.days.length; j++){
+        for(let j=0; j < comparingClass.days.length; j++){
             
             daysCharacter = comparingClass.days.charAt(j);
             if(selectedClass.days.includes(daysCharacter) == true){
@@ -581,7 +584,7 @@ function checkIfCourseConflicts(selectedClass) {
 
 //function to convert a standard time string to military time. Strings need to be formated like "8:00 AM"
 function convertToMilitaryTime(timeString){
-    var d = new Date("1/1/2013 " + timeString); 
+    let d = new Date("1/1/2013 " + timeString); 
     newTime = d.getHours() + ':' + d.getMinutes(); 
     newTime = newTime.replace(":","");
     return newTime;
@@ -636,7 +639,7 @@ function removeCourse(e, fromCourse="none") {
 function findAndRemoveCourse(courseToRemove,whichTable){
     
     if(whichTable == "main-courses") {
-        for(var i = 0; i < mainCourses.length; i++) {
+        for(let i = 0; i < mainCourses.length; i++) {
             if(mainCourses[i].courseID == courseToRemove.courseID){
                 mainCourses.splice(i,1);
                 break;
@@ -647,7 +650,7 @@ function findAndRemoveCourse(courseToRemove,whichTable){
     if(whichTable == "alternate-courses") {
         console.log("its hitting this");
         
-        for(var i = 0; i < alternateCourses.length; i++) {
+        for(let i = 0; i < alternateCourses.length; i++) {
             if(alternateCourses[i].courseID == courseToRemove.courseID){
                 console.log("how about this");
                 alternateCourses.splice(i,1);
