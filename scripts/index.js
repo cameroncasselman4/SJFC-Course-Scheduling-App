@@ -559,20 +559,22 @@ function checkIfCourseConflicts(selectedClass) {
             comparingClassEndTime = comparingClass.times.split('-')[1];
 
             //convert each time to military time
-            newComparingClassStartTime = convertToMilitaryTime(comparingClassStartTime);
-            newComparingClassEndTime = convertToMilitaryTime(comparingClassEndTime);
             newSelectedClassStartTime = convertToMilitaryTime(selectedClassStartTime);
             newSelectedClassEndTime = convertToMilitaryTime(selectedClassEndTime);
+            newComparingClassStartTime = convertToMilitaryTime(comparingClassStartTime);
+            newComparingClassEndTime = convertToMilitaryTime(comparingClassEndTime);
 
-            
+            if(newSelectedClassEndTime >= newComparingClassStartTime && newSelectedClassEndTime <= newComparingClassEndTime) {
+                alert(selectedClass.title + " at " + selectedClass.times + " conflicts with " + comparingClass.title + " at " + comparingClass.times);
+                doesClassConflict = true;
+                return doesClassConflict;
+            }
+            else if(newSelectedClassStartTime >= newComparingClassStartTime && newSelectedClassStartTime <= newComparingClassEndTime) {
+                alert(selectedClass.title + " at " + selectedClass.times + " conflicts with " + comparingClass.title + " at " + comparingClass.times);
+                doesClassConflict = true;
+                return doesClassConflict;
+            }
         }
-        else{
-            console.log("course added");
-        }
-
-      //  console.log(newComparingClassStartTime);
-       // console.log(newComparingClassEndTime);
-
     }
     return doesClassConflict;
 }
