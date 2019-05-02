@@ -262,8 +262,8 @@ function insertTableData(jsonData,whichTable,numCourses=0){
                 //Create buttons
                 tbl += '<td>';
                     
-                    tbl += '<span class="btn_main"> <a href="#/" row_id="'+ i +'" class ="btn btn-link">Main</a></span>';
-                    tbl += '<span class="btn_alternate"> <a href="#/" row_id="'+ i +'" class ="btn btn-link">Alternative</a></span>';
+                    tbl += '<span class="btn_main"> <a href="#/" row_id="'+ i +'" class ="tablebtn btn-link">Main</a></span>';
+                    tbl += '<span class="btn_alternate"> <a href="#/" row_id="'+ i +'" class ="tablebtn btn-link">Alternative</a></span>';
     
                 tbl += '<td>';  
     
@@ -289,13 +289,13 @@ function insertTableData(jsonData,whichTable,numCourses=0){
             tbl += '<td>';
 
                 if(whichTable == "main-schedule") {
-                    tbl += '<span class="btn_remove"> <a href="#/" class ="btn btn-link">Remove</a></span>';
+                    tbl += '<span class="btn_remove"> <a href="#/" class ="tablebtn btn-link">Remove</a></span>';
                     tbl += '<span class="btn_alternate"> <a href="#/" class ="btn btn-link">Alternative</a></span>';
                     
                 }
                 if(whichTable == "alternate-schedule") {
-                    tbl += '<span class="btn_remove"> <a href="#/" class ="btn btn-link">Remove</a></span>';
-                    tbl += '<span class="btn_main"> <a href="#/" class ="btn btn-link">Main</a></span>';
+                    tbl += '<span class="btn_remove"> <a href="#/" class ="tablebtn btn-link">Remove</a></span>';
+                    tbl += '<span class="btn_main"> <a href="#/" class ="tablebtn btn-link">Main</a></span>';
                     
                 }
         
@@ -577,34 +577,40 @@ function checkIfCourseConflicts(selectedClass) {
                 selectedClassStartTime = selectedClass.times.substr(0,selectedClass.times.indexOf("-"));
                 selectedClassEndTime = selectedClass.times.split('-')[1];
                 comparingClassStartTime = comparingClass.times.substr(0,mainCourses[i].times.indexOf("-"));
-                comparingClassEndTime = comparingClass.times.split('-')[1];
+                comparingClassEndTime = comparingClass.times.split('- ')[1];
 
                 //convert each time to military time
                 newSelectedClassStartTime = convertToMilitaryTime(selectedClassStartTime);
                 newSelectedClassEndTime = convertToMilitaryTime(selectedClassEndTime);
                 newComparingClassStartTime = convertToMilitaryTime(comparingClassStartTime);
                 newComparingClassEndTime = convertToMilitaryTime(comparingClassEndTime);
-
-                if(newSelectedClassEndTime >= newComparingClassStartTime && newSelectedClassEndTime <= newComparingClassEndTime) {
+    
+                //WOW!!!! discrete math coming in handy      
+                if((newSelectedClassStartTime <= newComparingClassEndTime && newSelectedClassEndTime >= newComparingClassStartTime)){
                     alert(selectedClass.title + " at " + selectedClass.times + " conflicts with " + comparingClass.title + " at " + comparingClass.times);
                     doesClassConflict = true;
                     return doesClassConflict;
-                }
-                else if(newSelectedClassStartTime >= newComparingClassStartTime && newSelectedClassStartTime <= newComparingClassEndTime) {
-                    alert(selectedClass.title + " at " + selectedClass.times + " conflicts with " + comparingClass.title + " at " + comparingClass.times);
-                    doesClassConflict = true;
-                    return doesClassConflict;
-                }
+                }                
             }   
         }
     }
     return doesClassConflict;
 }
 
-//function to convert a standard time string to military time. Strings need to be formated like "8:00 AM"
+//function to convert a standard time string to military time. Strings need to be formated like "8:00 AM" 
 function convertToMilitaryTime(timeString){
-    let d = new Date("1/1/2013 " + timeString); 
-    newTime = d.getHours() + ':' + d.getMinutes(); 
+    
+    var time = timeString.trim();
+    var hours = Number(time.match(/^(\d+)/)[1]);
+    var minutes = Number(time.match(/:(\d+)/)[1]);
+    var AMPM = time.match(/\s(.*)$/)[1];
+    if(AMPM == "PM" && hours<12) hours = hours+12;
+    if(AMPM == "AM" && hours==12) hours = hours-12;
+    var sHours = hours.toString();
+    var sMinutes = minutes.toString();
+    if(hours<10) sHours = "0" + sHours;
+    if(minutes<10) sMinutes = "0" + sMinutes;
+    var newTime = sHours + ":" + sMinutes;
     newTime = newTime.replace(":","");
     return newTime;
 }
@@ -687,13 +693,29 @@ function tableDisplay(element, value) {
     const elem = document.getElementsByClassName(element);
     elem[0].style.display = value;
 }
+function calculateTotalCredits(){
+    let totalCredits = 0;
+    for(var i=0; i < mainCourses.length; i++){
+        
+        totalCredits += Number(mainCourses[i].credits);
+    }
+    return totalCredits;
+}
+
+function printData(){
+    let htmlString = "Courses: <br><br>";
+
+    for(var i=0; i < mainCourses.length; i++){
+        htmlString += "CRN: " + mainCourses[i].courseID + " | Title: " +  mainCourses[i].title + " | Credits: " + mainCourses[i].credits + "<br>";
+    }
+    return htmlString;
+}
 
 function createPrintButton() {
     //create a print button
     const weekGlanceHeader = document.querySelector(".section-five-header");
     //remove it from the dom first because it might already be there
     let  printBtn = document.querySelector(".printBtn");
-    
     //idk why i had to do it like this but no time to think of a better way
     if(printBtn == null)
         createIt();
@@ -719,24 +741,18 @@ function createPrintButton() {
 function printFunc(e){
 
     e.preventDefault();
+    const printBtn = document.querySelector(".printBtn");
+    printBtn.style.display = "none";
+    var printContent = document.querySelector("#print");
+    var WinPrint = window.open('', '', 'width=900,height=650');
 
-    if(window.confirm("Printing your schedule will cause the page to refresh and your courses will be gone. Are you ready to print?") == true){
-        const printBtn = document.querySelector(".printBtn");
-        printBtn.style.display = "none";
-        const printDiv = document.querySelector("#print").innerHTML;
-        const oldHTML = document.body.innerHTML;
+    WinPrint.document.write(printContent.innerHTML + "<strong>" + printData() + "<br>Total credits: " + calculateTotalCredits() + "</br></br><span>Advisor:_______________________________________   Date:________</span></strong></body>");
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
 
-        //Reset the pages HTML with divs HTML only
-        document.body.innerHTML = 
-        "<html><head><title></title></head><body>" + 
-        printDiv + "<br></br><span>Advisor:_______________________________________   Date:________</span></body>";
-
-        //print the page
-        window.print();
-
-        //reload the page
-        document.location.reload(true);
-    }
+    createPrintButton();
 }
 
 function createAlert(message) {

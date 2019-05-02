@@ -2,8 +2,6 @@
 //WeekGlance js will organize all the main courses into days of the week
 //we then call the Display day componenet for each day of the week to display the students agenda
 
-//const e = React.createElement;
-
 function timeSort(props) {
 
     //perform bubble sort on the array
@@ -71,17 +69,17 @@ class DisplayDay extends React.Component {
 
         if(classesArray.length == 0){
             renderData.push(<div className="week-glance-row" key={currentDay}><h4>No Classes</h4></div>);
-            //buildUI = '<h4>No classes</h4>'
         }
 
         else{
-            
             for(var i=0; i<classesArray.length; i++){
+
                 if(classesArray[i].times == "")
                     renderData.push(<div className="week-glance-row" key={classesArray[i].title}><h4>{classesArray[i].title}</h4></div>);
                 else    
                     renderData.push(<div className="week-glance-row" key={classesArray[i].title}><h4>{classesArray[i].times} <strong> | </strong> {classesArray[i].title}</h4></div>);
             }
+            //renderData.push(<div className="week-glance-row" key={totalCredits}><h4>Total credits: {totalCredits}</h4></div>);
         }
         return renderData;
     }
