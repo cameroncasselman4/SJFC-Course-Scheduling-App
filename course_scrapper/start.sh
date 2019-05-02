@@ -22,10 +22,6 @@ npm install
 cd course-api
 node course-api
 
-printf "transpiling javascript files"
-cd ..
-npm run build
-
 printf "Done!\n"
 
 

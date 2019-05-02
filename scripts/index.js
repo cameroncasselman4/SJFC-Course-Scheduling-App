@@ -696,8 +696,8 @@ function tableDisplay(element, value) {
 function calculateTotalCredits(){
     let totalCredits = 0;
     for(var i=0; i < mainCourses.length; i++){
-        
-        totalCredits += Number(mainCourses[i].credits);
+        if(Number.isNaN(mainCourses[i].credits)==false)
+            totalCredits += Number(mainCourses[i].credits);
     }
     return totalCredits;
 }

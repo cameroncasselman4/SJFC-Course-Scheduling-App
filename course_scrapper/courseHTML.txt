@@ -1,0 +1,204 @@
+   [1]Go to Main Content
+
+St. John Fisher College
+
+
+   [2]HELP | [3]EXIT
+
+
+
+   Transparent Image
+
+   * denotes required field
+
+1. Choose Term (*)
+
+   ( ) Spring 2019
+   ( ) Summer 2019
+   (*) Fall 2019
+   ( ) Spring 2020
+   ( ) Previous Terms
+     [Choose Term]
+   [4]Academic Calendar
+   [5]Registration Information
+   NOTE: Course data updates every hour during registration
+
+2. Choose Options (*)
+
+     * ----- Enrollment -----
+     * [X] Open
+     * [X] Closed
+     * ----- Subjects (*) -----
+     * [ ] ACCT - Accounting
+     * [ ] AFAM - African American Studies
+     * [ ] AMST - American Studies
+     * [ ] ANTH - Anthropology
+     * [ ] APIT - Applied Information Technology
+     * [ ] ARTS - Visual & Performing Arts
+     * [ ] BIOL - Biology
+     * [ ] CHEM - Chemistry
+     * [ ] CLST - Classical Studies
+     * [ ] COMM - Communications
+     * [ ] CRIM - Criminology
+     * [ ] CSCI - Computer Science
+     * [ ] DEXL - Executive Leadership
+     * [ ] DIGC - Digital Cultures/Technologies
+     * [ ] ECON - Economics
+     * [ ] EDUC - Education
+     * [ ] ENGL - English
+     * [ ] FGEN - First Generation
+     * [ ] FINA - Finance
+     * [ ] FSTY - FSTY-Foreign Study
+     * [ ] GAED - Adolescence Education
+     * [ ] GCED - Childhood Education
+     * [ ] GDAT - Applied Data Science
+     * [ ] GEDA - Educational Adminin
+     * [ ] GEDU - Graduate Education
+     * [ ] GHRD - Human Resource Devlopment
+     * [ ] GISP - Graduate International Studies
+     * [ ] GLMS - Library Media Specialist
+     * [ ] GMGT - Management (Graduate)
+     * [ ] GMHC - Mental Health Counseling
+     * [ ] GMSM - Graduate Management
+     * [ ] GMST - Math/Sci/Technology Educ
+     * [ ] GNUR - Advanced Practice Nursing
+     * [ ] GPBH - Public Health (Graduate)
+     * [ ] GRDG - Reading/Literacy Educ
+     * [ ] GREK - Greek
+     * [ ] GSCM - Strategic Communication
+     * [ ] GSED - Graduate Special Education
+     * [ ] GSMG - Sales Management
+     * [ ] GTLY - Gerontology
+     * [ ] HHUM - Health & Humanities
+     * [ ] HIST - History
+     * [ ] HNRS - Honors Program
+     * [ ] HRMG - Human Resource Management
+     * [ ] ISPR - International Studies
+     * [ ] ITDY - Interdisciplinary
+     * [ ] ITED - Interdisciplinary Educ
+     * [ ] LARA - Arabic
+     * [ ] LATN - Latin
+     * [ ] LCHN - Chinese
+     * [ ] LCLA - Classics
+     * [ ] LEST - Legal Studies
+     * [ ] LFRN - French
+     * [ ] LITL - Italian
+     * [ ] LLIT - Literature In Translation
+     * [ ] LSPN - Spanish
+     * [ ] MATH - Mathematics
+     * [ ] MGMT - Management
+     * [ ] MKTG - Marketing
+     * [ ] MSTD - Museum Studies
+     * [ ] MSTI - Math/Sci/Tech Integration
+     * [ ] NURS - Nursing
+     * [ ] PHAR - Pharmacy
+     * [ ] PHIL - Philosophy
+     * [ ] PHYS - Physics
+     * [ ] POSC - Political Science
+     * [ ] PSJS - Peace & Social Justice Studies
+     * [ ] PSYC - Psychology
+     * [ ] PUBH - Public Health
+     * [ ] REST - Religious Studies
+     * [ ] SERV - Service Scholars
+     * [ ] SGNL - American Sign Language
+     * [ ] SOCI - Sociology
+     * [ ] SPST - Sport Studies
+     * [ ] SSCH - Science Scholars
+     * [ ] STAT - Statistics
+     * [ ] SUST - Sustainability
+     * [ ] WGST - Women & Gender Studies
+
+     * [ ] Check All Subjects
+
+3. Choose Attribute(s)
+
+     * ----- Core Attributes -----
+     * [ ] LC - Learning Community
+     * [ ] CC - Cultural Contrasts
+     * [ ] RW - Research based Writing
+     * [ ] SQ - Sci and Quant Literacy
+     * [ ] P1 - Perspectives Area 1
+     * [ ] P2 - Perspectives Area 2
+     * [ ] P3 - Perspectives Area 3
+     * [ ] P4 - Perspectives Area 4
+     * [ ] P5 - Perspectives Area 5
+     * [ ] W - Online Summer UG Courses
+     * ------------ All ----------
+     * [ ] ADVE - C/J Advertising Course
+     * [ ] AFCE - AFAM Cultural Expressions
+     * [ ] AMHU - AMST Humanities Area C
+     * [ ] AMSS - AMST Social Science Area B
+     * [ ] AMUS - AMST US History Area A
+     * [ ] ARTS - ARTS Minor Course
+     * [ ] BCST - C/J Broadcasting Course
+     * [ ] CC - Cultural Contrasts
+     * [ ] CJMP - C/J Media Perspectives Course
+     * [ ] CJVP - C/J Visual Presentation Course
+     * [ ] ENBL - ENGL British Literature Course
+     * [ ] ENEA - ENGL Ethnic American Lit
+     * [ ] ENLT - ENGL Literature Course
+     * [ ] ENWL - ENGL World Literature
+     * [ ] ENWP - ENGL Writing: Adv Practices
+     * [ ] ENWR - ENGL Writing Course
+     * [ ] ENWT - ENGL Writing:Thry, Context, Co
+     * [ ] HHCF - HHUM Cultural Foundations
+     * [ ] HHHD - HHUM Human Differences
+     * [ ] HHSM - HHUM Skills & Methodologies
+     * [ ] HHUM - HHUM Humanities
+     * [ ] HIES - HIST European Studies
+     * [ ] HINA - HIST North American Studies
+     * [ ] HINW - HIST Asian-Non Western
+     * [ ] HISM - HIST Strat, Milti & Diplomatic
+     * [ ] HONR - Honors Course
+     * [ ] JRNL - Journalism Minor Course
+     * [ ] LC - Learning Community
+     * [ ] MUST - Museum Studies Elective
+     * [ ] P1 - Perspectives Area 1
+     * [ ] P2 - Perspectives Area 2
+     * [ ] P3 - Perspectives Area 3
+     * [ ] P4 - Perspectives Area 4
+     * [ ] P5 - Perspectives Area 5
+     * [ ] PR - C/J Public Relations Course
+     * [ ] PROD - C/J Production Course
+     * [ ] RW - Research based Writing
+     * [ ] SLC - Service Learning Component
+     * [ ] SPBE - SPST Business Elective
+     * [ ] SPHR - SPST Human Relations Elective
+     * [ ] SQ - Sci and Quant Literacy
+     * [ ] STCO - Strategic Communication Course
+     * [ ] WGST - WGST Elective
+     * [ ] YLIB - Liberal Arts Elective
+     * [ ] ZCAP - Senior Capstone
+     * [ ] ZCIV - Civic Engagement
+     * [ ] ZCLX - Clinical Experience
+     * [ ] ZEXL - Experiential Learning
+     * [ ] ZRES - Student Research Component
+     * [ ] ZTRA - International Travel Component
+
+     * [X] No Attributes
+
+   [6]
+
+Filter By Title, Time, Instructor, or Type (Advanced Search)
+
+   Course Title: _________________________
+   Meeting Time: (*) Morning ( ) Afternoon ( ) Evening ( ) Any
+     Instructor: _________________________
+    Course Type: ( ) Online ( ) Hybrid (*) All
+   Search [BUTTON Input] (not implemented)__________ Progress Bar
+   Transparent Image
+   [7]Skip to top of page
+
+   Release: 1.0
+
+© 2019 Ellucian Company L.P. and its affiliates.
+
+References
+
+   1. https://rhelxess2-prod.sjfc.edu:8445/prod/sjfc_course_search_1.main_page#main_content
+   2. https://rhelxess2-prod.sjfc.edu:8445/wtlhelp/twbhhelp.htm
+   3. https://rhelxess2-prod.sjfc.edu:8445/prod/twbkwbis.P_Logout
+   4. https://www.sjfc.edu/news-and-events/academic-calendars/
+   5. https://www.sjfc.edu/services/registrar/registration-information/
+   6. https://rhelxess2-prod.sjfc.edu:8445/prod/sjfc_course_search_1.main_page
+   7. https://rhelxess2-prod.sjfc.edu:8445/prod/sjfc_course_search_1.main_page#top

@@ -1,8 +1,8 @@
 echo "Creating Tables"
 php createTables.php
 
-echo "Scraping"
-php grabPage.php
+REM echo "Scraping"
+REM php grabPage.php
 
 echo "Processing the data..."
 php processData.php
