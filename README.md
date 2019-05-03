@@ -1,4 +1,5 @@
 # SJFC-Course-Scheduling-App
+http://www.connorcasselman.com/sjfccourse/SJFC-Course-Scheduling-App/
 
 The SJFC-Course-Scheduling-App is designed with several technologies including, Javascript, React, Babel, Express.js, Node.js MySQL, PHP and HTML+CSS 
 
